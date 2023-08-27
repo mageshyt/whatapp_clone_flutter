@@ -39,7 +39,7 @@ class CustomThemeExtension extends ThemeExtension<CustomThemeExtension> {
     blueColor: ThemeColors.blueDark,
     langBgColor: Color(0xFF182229),
     langHightlightColor: Color(0xFF09141A),
-    authAppbarTextColor: ThemeColors.greenDark,
+    authAppbarTextColor: Colors.white,
   );
   @override
   ThemeExtension<CustomThemeExtension> copyWith(

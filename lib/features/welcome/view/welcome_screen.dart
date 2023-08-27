@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:whatapp_clone/constants/colors.dart';
 import 'package:whatapp_clone/features/welcome/widgets/PrivacyAndTerms.dart';
 import 'package:whatapp_clone/common/common.dart';
 import 'package:whatapp_clone/features/welcome/widgets/languageButton.dart';
