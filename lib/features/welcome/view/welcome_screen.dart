@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:whatapp_clone/constants/colors.dart';
 import 'package:whatapp_clone/features/welcome/widgets/PrivacyAndTerms.dart';
-import 'package:whatapp_clone/features/welcome/widgets/customElevatedButton.dart';
+import 'package:whatapp_clone/common/common.dart';
 import 'package:whatapp_clone/features/welcome/widgets/languageButton.dart';
+import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 
 class Welcome_screen extends StatelessWidget {
   const Welcome_screen({super.key});
@@ -10,7 +11,6 @@ class Welcome_screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ThemeColors.backgroundDark,
       body: Column(children: [
         // logo
         Expanded(
@@ -23,16 +23,16 @@ class Welcome_screen extends StatelessWidget {
               ),
               child: Image.asset(
                 'assets/images/circle.png',
-                color: const Color(0xFF00A884),
+                color: context.theme.circleImageColor,
               ),
             ),
           ),
         ),
         const SizedBox(height: 40),
-        const Expanded(
+        Expanded(
           child: Column(
             children: [
-              Text(
+              const Text(
                 'Welcome to WhatsApp',
                 style: TextStyle(
                   fontSize: 22,
@@ -40,11 +40,15 @@ class Welcome_screen extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              SizedBox(height: 20),
-              PrivacyAndTerms(),
-              CustomElevatedButton(),
-              SizedBox(height: 20),
-              LanguageButton()
+              const SizedBox(height: 20),
+              const PrivacyAndTerms(),
+              CustomElevatedButton(
+                label: 'AGREE AND CONTINUE',
+                onPressed: () {},
+                text_color: Colors.black,
+              ),
+              const SizedBox(height: 20),
+              const LanguageButton()
             ],
           ),
         ),
