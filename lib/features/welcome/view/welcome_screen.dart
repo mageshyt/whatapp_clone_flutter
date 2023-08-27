@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:whatapp_clone/constants/colors.dart';
 import 'package:whatapp_clone/features/welcome/widgets/PrivacyAndTerms.dart';
+import 'package:whatapp_clone/features/welcome/widgets/customElevatedButton.dart';
 import 'package:whatapp_clone/features/welcome/widgets/languageButton.dart';
 
 class Welcome_screen extends StatelessWidget {
@@ -8,12 +10,11 @@ class Welcome_screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF111B21),
-      body: Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center,
-         children: [
-          // logo
-          Align(
+      backgroundColor: ThemeColors.backgroundDark,
+      body: Column(children: [
+        // logo
+        Expanded(
+          child: Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -26,12 +27,12 @@ class Welcome_screen extends StatelessWidget {
               ),
             ),
           ),
-
-          const SizedBox(height: 40),
-
-          Column(
+        ),
+        const SizedBox(height: 40),
+        const Expanded(
+          child: Column(
             children: [
-              const Text(
+              Text(
                 'Welcome to WhatsApp',
                 style: TextStyle(
                   fontSize: 22,
@@ -39,33 +40,17 @@ class Welcome_screen extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 20),
-              const PrivacyAndTerms(),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: const Color(0xFF00A884),
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  onPressed: () {},
-                  child: const Text(
-                    'Agree and continue',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              const LanguageButton()
+              SizedBox(height: 20),
+              PrivacyAndTerms(),
+              CustomElevatedButton(),
+              SizedBox(height: 20),
+              LanguageButton()
             ],
           ),
+        ),
 
-          // Agree and continue button
-        ]),
-      ),
+        // Agree and continue button
+      ]),
     );
   }
 }
