@@ -14,7 +14,16 @@ ThemeData darkTheme() {
           foregroundColor: ThemeColors.backgroundDark,
           splashFactory: NoSplash.splashFactory,
           elevation: 0,
-          shadowColor: ThemeColors.greyBackground),
+          shadowColor: Colors.transparent),
+    ),
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: ThemeColors.greyBackground,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
+      modalBackgroundColor: ThemeColors.backgroundDark,
     ),
   );
 }

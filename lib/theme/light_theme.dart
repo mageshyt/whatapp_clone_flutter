@@ -7,6 +7,7 @@ ThemeData lightTheme() {
   return base.copyWith(
     backgroundColor: ThemeColors.backgroundLight,
     scaffoldBackgroundColor: ThemeColors.backgroundLight,
+    textTheme: base.textTheme.apply(bodyColor: ThemeColors.black),
     extensions: [CustomThemeExtension.lightMode],
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -14,7 +15,16 @@ ThemeData lightTheme() {
           foregroundColor: ThemeColors.backgroundLight,
           splashFactory: NoSplash.splashFactory,
           elevation: 0,
-          shadowColor: ThemeColors.greyBackground),
+          shadowColor: Colors.transparent),
+    ),
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: ThemeColors.backgroundLight,
+      modalBackgroundColor: ThemeColors.backgroundLight,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
     ),
   );
 }
