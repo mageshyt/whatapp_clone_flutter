@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whatapp_clone/common/common.dart';
 import 'package:whatapp_clone/constants/colors.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 
@@ -19,26 +20,16 @@ class AuthAppbar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       centerTitle: true,
-      leading: IconButton(
-        onPressed: () {},
-        icon: Icon(Icons.arrow_back, color: context.theme.greyColor),
-        constraints: const BoxConstraints(minWidth: 40),
-        splashRadius: 22,
-        iconSize: 22,
-        padding: EdgeInsets.zero,
-        splashColor: Colors.transparent,
-        color: ThemeColors.greenDark,
+      leading: CustomIconButton(
+        icon: Icons.arrow_back,
+        onPressed: () => Navigator.of(context).pop(),
+        color: context.theme.greyColor,
       ),
       actions: [
-        IconButton.filled(
+        CustomIconButton(
+          icon: Icons.more_vert,
           onPressed: () {},
-          icon: Icon(Icons.more_vert, color: context.theme.greyColor),
-          constraints: const BoxConstraints(minWidth: 40),
-          splashRadius: 22,
-          iconSize: 22,
-          padding: EdgeInsets.zero,
-          splashColor: Colors.transparent,
-          color: ThemeColors.greenDark,
+          color: context.theme.greyColor,
         )
       ],
     );

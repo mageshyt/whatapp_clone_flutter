@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whatapp_clone/common/common.dart';
 import 'package:whatapp_clone/constants/colors.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 
@@ -26,10 +27,11 @@ class LanguageButton extends StatelessWidget {
 
               Row(
                 children: [
-                  IconButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      icon:
-                          const Icon(Icons.close, color: ThemeColors.greyDark)),
+                  CustomIconButton(
+                    icon: Icons.close,
+                    onPressed: () => Navigator.of(context).pop(),
+                    color: context.theme.greyColor,
+                  ),
                   const SizedBox(width: 10),
                   const Text(
                     'Choose a language',

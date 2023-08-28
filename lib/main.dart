@@ -20,6 +20,6 @@ class MyApp extends StatelessWidget {
         darkTheme: darkTheme(),
         themeMode: ThemeMode.system,
         title: 'Whatsapp me',
-        home: const LoginView());
+        home: const Welcome_screen());
   }
 }

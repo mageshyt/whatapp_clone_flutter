@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whatapp_clone/common/common.dart';
+import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
 import 'package:whatapp_clone/constants/colors.dart';
 import 'package:whatapp_clone/features/auth/widgets/auth_appbar.dart';
 import 'package:whatapp_clone/features/auth/widgets/custom_text_field.dart';
@@ -8,6 +9,9 @@ import 'package:country_picker/country_picker.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
+  static Route<dynamic> route() {
+    return MaterialPageRoute(builder: (context) => const LoginView());
+  }
 
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -24,20 +28,62 @@ class _LoginViewState extends State<LoginView> {
 
   void pickCountry() {
     showCountryPicker(
-        context: context,
-        onSelect: (Country _country) {
-          // ! setState is used to update the UI
-          setState(() {
-            country = _country;
-          });
+      context: context,
+      onSelect: (Country _country) {
+        // ! setState is used to update the UI
+        setState(() {
+          country = _country;
         });
+      },
+      showPhoneCode: true,
+      favorite: ['+91', 'IN'],
+      countryListTheme: CountryListThemeData(
+        bottomSheetHeight: 600,
+        flagSize: 22,
+        backgroundColor: Theme.of(context).backgroundColor,
+        inputDecoration: InputDecoration(
+            labelStyle: TextStyle(color: context.theme.greyColor),
+            prefixIcon:
+                const Icon(Icons.language, color: ThemeColors.greenDark),
+            hintText: "Search Country code or name",
+            hintStyle: TextStyle(color: context.theme.greyColor),
+            enabledBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: context.theme.greyColor!.withOpacity(0.2)),
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: ThemeColors.greenDark),
+            )),
+      ),
+    );
+  }
+
+  void sendPhoneCode() {
+    // if no country is selected
+    if (country == null) {
+      showAlertDialog(
+        context: context,
+        title: "Country not selected",
+        content: "Please pick a country",
+      );
+      return;
+    }
+
+    // if phone number is empty
+
+    else if (phoneController.text.isEmpty) {
+      showAlertDialog(
+        context: context,
+        content: "Please enter your phone number",
+      );
+      return;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AuthAppbar(),
+      appBar: const AuthAppbar(),
       body: Column(children: [
         // info text
         Padding(
@@ -76,14 +122,23 @@ class _LoginViewState extends State<LoginView> {
 
         // phone number field
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 50),
+          padding: const EdgeInsets.symmetric(horizontal: 50),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               if (country != null)
-                Text(
-                  "+${country!.phoneCode}",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: context.theme.greyColor!.withOpacity(0.2),
+                  ),
+                  child: Text(
+                    "+${country!.phoneCode}",
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                 ),
               const SizedBox(width: 10),
               Expanded(
@@ -97,11 +152,16 @@ class _LoginViewState extends State<LoginView> {
             ],
           ),
         ),
+        const SizedBox(height: 15),
+        Text(
+          "Carrier changes may apply",
+          style: TextStyle(color: context.theme.greyColor),
+        )
       ]),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: CustomElevatedButton(
         label: "NEXT",
-        onPressed: () {},
+        onPressed: sendPhoneCode,
         width: 90,
       ),
     );

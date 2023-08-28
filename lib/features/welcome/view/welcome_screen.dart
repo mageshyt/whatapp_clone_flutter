@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whatapp_clone/features/auth/pages/login_view.dart';
 import 'package:whatapp_clone/features/welcome/widgets/PrivacyAndTerms.dart';
 import 'package:whatapp_clone/common/common.dart';
 import 'package:whatapp_clone/features/welcome/widgets/languageButton.dart';
@@ -6,6 +7,9 @@ import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 
 class Welcome_screen extends StatelessWidget {
   const Welcome_screen({super.key});
+  static Route<dynamic> route() {
+    return MaterialPageRoute(builder: (context) => const Welcome_screen());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +47,9 @@ class Welcome_screen extends StatelessWidget {
               const PrivacyAndTerms(),
               CustomElevatedButton(
                 label: 'AGREE AND CONTINUE',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, LoginView.route());
+                },
                 text_color: Colors.black,
               ),
               const SizedBox(height: 20),
