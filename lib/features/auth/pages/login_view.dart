@@ -52,8 +52,9 @@ class _LoginViewState extends State<LoginView> {
                   BorderSide(color: context.theme.greyColor!.withOpacity(0.2)),
             ),
             focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: ThemeColors.greenDark),
+              borderSide: BorderSide(color: ThemeColors.greenDark, width: 2),
             )),
+            
       ),
     );
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:whatapp_clone/common/common.dart';
-import 'package:whatapp_clone/constants/colors.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 
 class AuthAppbar extends StatelessWidget implements PreferredSizeWidget {

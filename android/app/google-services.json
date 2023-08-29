@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "552964831356",
+    "project_id": "whatappclone-d7177",
+    "storage_bucket": "whatappclone-d7177.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552964831356:android:87a6e79d7d748debe6b1f9",
+        "android_client_info": {
+          "package_name": "com.example.whatapp_clone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "552964831356-ehnvih0bpecpac9mcal4a1j8em0get9a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.whatapp_clone",
+            "certificate_hash": "cf4ef990289a595898dbdcba1b8f4cb970363cad"
+          }
+        },
+        {
+          "client_id": "552964831356-hm2rr0p3vpvmlg0bstn35ah9fs3q6oin.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBv08g0-V-6nO2rBSafPj67nZXMT0EawQI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "552964831356-hm2rr0p3vpvmlg0bstn35ah9fs3q6oin.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "552964831356-rrv14b4i716vs87f0p25o6vvvrop958h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.whatappCloneFlutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

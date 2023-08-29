@@ -36,6 +36,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.2.14
+  firebase_core: ^2.15.1
+  firebase: ^9.0.3
+  firebase_storage: ^11.2.6
+  cloud_firestore: ^4.9.0
+  firebase_auth: ^4.8.0
 
 flutter_icons:
   android: true

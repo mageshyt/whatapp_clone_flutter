@@ -6,6 +6,7 @@ ThemeData darkTheme() {
   final ThemeData base = ThemeData.dark();
   return base.copyWith(
       backgroundColor: ThemeColors.backgroundDark,
+      hintColor: ThemeColors.greyLight,
       scaffoldBackgroundColor: ThemeColors.backgroundDark,
       extensions: [CustomThemeExtension.darkMode],
       elevatedButtonTheme: ElevatedButtonThemeData(

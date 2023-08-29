@@ -6,6 +6,7 @@ ThemeData lightTheme() {
   final ThemeData base = ThemeData.dark();
   return base.copyWith(
     backgroundColor: ThemeColors.backgroundLight,
+    hintColor: ThemeColors.black,
     scaffoldBackgroundColor: ThemeColors.backgroundLight,
     textTheme: base.textTheme.apply(bodyColor: ThemeColors.black),
     extensions: [CustomThemeExtension.lightMode],

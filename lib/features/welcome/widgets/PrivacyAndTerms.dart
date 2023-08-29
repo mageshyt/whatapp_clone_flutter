@@ -24,7 +24,7 @@ class PrivacyAndTerms extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              TextSpan(
+              const TextSpan(
                 text: ". Tap 'Agree and continue' to accept the",
               ),
               TextSpan(
