@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
 import 'package:whatapp_clone/features/auth/pages/opt_view.dart';
+
+final authRepositoryProvider = Provider((ref) => AuthRepository(
+    auth: FirebaseAuth.instance, firestore: FirebaseFirestore.instance));
 
 class AuthRepository {
   final FirebaseAuth auth;

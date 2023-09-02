@@ -41,6 +41,8 @@ dependencies:
   firebase_storage: ^11.2.6
   cloud_firestore: ^4.9.0
   firebase_auth: ^4.8.0
+  riverpod: ^2.3.10
+  flutter_riverpod: ^2.3.10
 
 flutter_icons:
   android: true

@@ -2,22 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:whatapp_clone/common/common.dart';
 import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
 import 'package:whatapp_clone/constants/colors.dart';
+import 'package:whatapp_clone/features/auth/controllers/auth_controller.dart';
 import 'package:whatapp_clone/features/auth/widgets/auth_appbar.dart';
 import 'package:whatapp_clone/features/auth/widgets/custom_text_field.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginView extends StatefulWidget {
+class LoginView extends ConsumerStatefulWidget {
   const LoginView({Key? key}) : super(key: key);
   static Route<dynamic> route() {
     return MaterialPageRoute(builder: (context) => const LoginView());
   }
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  ConsumerState<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _LoginViewState extends ConsumerState<LoginView> {
   final phoneController = TextEditingController();
   Country? country;
   @override
@@ -54,7 +56,6 @@ class _LoginViewState extends State<LoginView> {
             focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: ThemeColors.greenDark, width: 2),
             )),
-            
       ),
     );
   }
@@ -72,13 +73,16 @@ class _LoginViewState extends State<LoginView> {
 
     // if phone number is empty
 
-    else if (phoneController.text.isEmpty) {
+    else if (phoneController.text.isEmpty || phoneController.text.length < 9) {
       showAlertDialog(
         context: context,
         content: "Please enter your phone number",
       );
       return;
     }
+
+    ref.read(authControllerProvider).singInWithPhone(
+        context, '+${country!.countryCode}${phoneController.text}');
   }
 
   @override
