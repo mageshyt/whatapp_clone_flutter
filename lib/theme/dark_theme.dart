@@ -3,6 +3,9 @@ import 'package:whatapp_clone/constants/colors.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 
 ThemeData darkTheme() {
+  
+  
+  
   final ThemeData base = ThemeData.dark();
   return base.copyWith(
       backgroundColor: ThemeColors.backgroundDark,
