@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 
 class OTPScreen extends StatefulWidget {
-  static Route<dynamic> route(String verficationId) {
-    return MaterialPageRoute(
-        builder: (context) => OTPScreen(
-              verficationId: verficationId,
-            ));
-  }
+ 
 
-  final String verficationId;
+  final String verificationId;
+  final String phoneNumber;
 
-  const OTPScreen({super.key, required this.verficationId});
+  const OTPScreen({super.key, required this.verificationId,required this.phoneNumber});
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();

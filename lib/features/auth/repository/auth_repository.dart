@@ -16,6 +16,8 @@ class AuthRepository {
 
   void signInWithPhone(BuildContext context, String phone) async {
     try {
+      debugPrint(phone);
+      // verify the phone
       await auth.verifyPhoneNumber(
           phoneNumber: phone,
           verificationCompleted: (PhoneAuthCredential credential) async {
@@ -24,8 +26,10 @@ class AuthRepository {
           verificationFailed: (FirebaseAuthException e) {
             throw Exception(e.message);
           },
+          // once the code sent then posh to otp screen
+
           codeSent: ((String verificationId, int? resendToken) {
-            Navigator.push(context, OTPScreen.route(verificationId));
+            // Navigator.push(context, OTPScreen.route(verificationId));
           }),
           codeAutoRetrievalTimeout: (String verificationId) {});
     } on FirebaseAuthException catch (e) {

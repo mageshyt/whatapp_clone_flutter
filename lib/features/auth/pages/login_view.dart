@@ -3,6 +3,7 @@ import 'package:whatapp_clone/common/common.dart';
 import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
 import 'package:whatapp_clone/constants/colors.dart';
 import 'package:whatapp_clone/features/auth/controllers/auth_controller.dart';
+import 'package:whatapp_clone/features/auth/pages/opt_view.dart';
 import 'package:whatapp_clone/features/auth/widgets/auth_appbar.dart';
 import 'package:whatapp_clone/features/auth/widgets/custom_text_field.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
@@ -81,8 +82,10 @@ class _LoginViewState extends ConsumerState<LoginView> {
       return;
     }
 
-    ref.read(authControllerProvider).singInWithPhone(
-        context, '+${country!.countryCode}${phoneController.text}');
+    // ref.read(authControllerProvider).singInWithPhone(
+    //     context, '+${country!.phoneCode}${phoneController.text}');
+    // Navigator.push(context, OTPScreen.route('hello'));
+
   }
 
   @override

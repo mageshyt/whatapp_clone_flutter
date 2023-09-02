@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatapp_clone/features/welcome/view/welcome_screen.dart';
 import 'package:whatapp_clone/firebase_options.dart';
+import 'package:whatapp_clone/routers/router.dart';
 import 'package:whatapp_clone/theme/dark_theme.dart';
 import 'package:whatapp_clone/theme/light_theme.dart';
 
@@ -21,11 +22,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: lightTheme(),
-        darkTheme: darkTheme(),
-        themeMode: ThemeMode.system,
-        title: 'Whatsapp me',
-        home: const Welcome_screen());
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme(),
+      darkTheme: darkTheme(),
+      themeMode: ThemeMode.system,
+      title: 'Whatsapp me',
+      home: const Welcome_screen(),
+      onGenerateRoute: Routes.onGenerateRoute,
+    );
   }
 }
