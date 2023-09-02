@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
 import 'package:whatapp_clone/features/auth/pages/opt_view.dart';
+import 'package:whatapp_clone/routers/router.dart';
 
 final authRepositoryProvider = Provider((ref) => AuthRepository(
     auth: FirebaseAuth.instance, firestore: FirebaseFirestore.instance));
@@ -29,9 +30,33 @@ class AuthRepository {
           // once the code sent then posh to otp screen
 
           codeSent: ((String verificationId, int? resendToken) {
-            // Navigator.push(context, OTPScreen.route(verificationId));
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              Routes.verification,
+              arguments: {
+                'phoneNumber': phone,
+                "verificationId": verificationId
+              },
+              (route) => true,
+            );
           }),
           codeAutoRetrievalTimeout: (String verificationId) {});
+    } on FirebaseAuthException catch (e) {
+      showAlertDialog(context: context, content: e.message.toString());
+    }
+  }
+
+  void verifyOTP({
+    required BuildContext context,
+    required String verificationId,
+    required String OTP,
+  }) async {
+    try {
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: verificationId, smsCode: OTP);
+      await auth.signInWithCredential(credential);
+
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(Routes.userInformation, (route) => false);
     } on FirebaseAuthException catch (e) {
       showAlertDialog(context: context, content: e.message.toString());
     }

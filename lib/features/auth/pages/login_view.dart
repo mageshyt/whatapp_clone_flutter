@@ -4,8 +4,9 @@ import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
 import 'package:whatapp_clone/constants/colors.dart';
 import 'package:whatapp_clone/features/auth/controllers/auth_controller.dart';
 import 'package:whatapp_clone/features/auth/pages/opt_view.dart';
-import 'package:whatapp_clone/features/auth/widgets/auth_appbar.dart';
+import 'package:whatapp_clone/common/widgets/reuse_appbar.dart';
 import 'package:whatapp_clone/features/auth/widgets/custom_text_field.dart';
+import 'package:whatapp_clone/routers/router.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -82,16 +83,16 @@ class _LoginViewState extends ConsumerState<LoginView> {
       return;
     }
 
-    // ref.read(authControllerProvider).singInWithPhone(
-    //     context, '+${country!.phoneCode}${phoneController.text}');
-    // Navigator.push(context, OTPScreen.route('hello'));
-
+    ref.read(authControllerProvider).singInWithPhone(
+        context, '+${country!.phoneCode}${phoneController.text}');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AuthAppbar(),
+      appBar: const ReuseableAppbar(
+        title: "Enter your phone number",
+      ),
       body: Column(children: [
         // info text
         Padding(

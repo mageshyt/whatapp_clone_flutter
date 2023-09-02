@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:whatapp_clone/common/common.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 
-class AuthAppbar extends StatelessWidget implements PreferredSizeWidget {
-  const AuthAppbar({
+class ReuseableAppbar extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+  const ReuseableAppbar({
     super.key,
+    required this.title
   });
 
   @override
@@ -13,7 +15,7 @@ class AuthAppbar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 0,
       title: Text(
-        "Enter your phone number",
+        title,
         style: TextStyle(
           color: context.theme.authAppbarTextColor,
         ),

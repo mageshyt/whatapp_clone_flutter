@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:whatapp_clone/features/auth/pages/login_view.dart';
 import 'package:whatapp_clone/features/auth/pages/opt_view.dart';
+import 'package:whatapp_clone/features/auth/pages/user_information_view.dart';
 import 'package:whatapp_clone/features/welcome/view/welcome_screen.dart';
 
 class Routes {
   static const String welcome = 'welcome';
   static const String login = 'login';
   static const String verification = 'verification';
+  static const String userInformation = 'userInformation';
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case welcome:
@@ -20,6 +22,10 @@ class Routes {
                   verificationId: args['verificationId'],
                   phoneNumber: args['phoneNumber'],
                 ));
+
+      case userInformation:
+        return MaterialPageRoute(
+            builder: (context) => const UserInformationView());
       default:
         return MaterialPageRoute(
           builder: (context) => const Scaffold(
