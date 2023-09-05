@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whatapp_clone/common/common.dart';
 import 'package:whatapp_clone/features/auth/widgets/custom_text_field.dart';
+import 'package:whatapp_clone/features/auth/widgets/short_h_bar.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 
 class UserInformationView extends StatefulWidget {
@@ -15,7 +16,44 @@ class _UserInformationViewState extends State<UserInformationView> {
 
   final name_controller = TextEditingController();
 
-  // ------- image picker type bottomsheet------
+  // ------- image picker type bottomsheet------\
+  imagePickerTypeBottomSheet() {
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Column(
+            // mainAxisSize: MainAxisSize.min,
+            children: [
+              const ShortHBar(),
+              // ------ title ------
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    const Text("Profile Photo",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        )),
+                    const Spacer(),
+                    // ------ close icon ------
+                    IconButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: const Icon(Icons.close),
+                    ),
+                  ],
+                ),
+              ),
+
+              // -------- Divider ------
+              Divider(
+                color: context.theme.greyColor!.withOpacity(0.2),
+              )
+              // ------ camera ------
+            ],
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +61,7 @@ class _UserInformationViewState extends State<UserInformationView> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
-        title: Text("profile info"),
+        title: const Text("profile info"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -34,7 +72,6 @@ class _UserInformationViewState extends State<UserInformationView> {
             'Please provide your name and an optional profile photo',
             textAlign: TextAlign.center,
             style: TextStyle(
-
               color: context.theme.greyColor,
             ),
           ),
@@ -43,17 +80,20 @@ class _UserInformationViewState extends State<UserInformationView> {
 
           const SizedBox(height: 30),
 
-          Container(
-            width: 100,
-            height: 100,
-            decoration: BoxDecoration(
-              color: context.theme.photoIconBgColor,
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: Icon(
-              Icons.add_a_photo_rounded,
-              size: 48,
-              color: context.theme.photoIconColor,
+          GestureDetector(
+            onTap: imagePickerTypeBottomSheet,
+            child: Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                color: context.theme.photoIconBgColor,
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Icon(
+                Icons.add_a_photo_rounded,
+                size: 48,
+                color: context.theme.photoIconColor,
+              ),
             ),
           ),
           // -------- name textfield-----
