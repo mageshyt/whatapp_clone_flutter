@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:whatapp_clone/common/common.dart';
 import 'package:whatapp_clone/constants/colors.dart';
 import 'package:whatapp_clone/common/widgets/reuse_appbar.dart';
 import 'package:whatapp_clone/features/auth/controllers/auth_controller.dart';

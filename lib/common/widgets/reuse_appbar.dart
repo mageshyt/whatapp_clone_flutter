@@ -4,9 +4,11 @@ import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 
 class ReuseableAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final bool isCenterTitle;
   const ReuseableAppbar({
     super.key,
-    required this.title
+    required this.title,
+    this.isCenterTitle = true,
   });
 
   @override
@@ -20,7 +22,7 @@ class ReuseableAppbar extends StatelessWidget implements PreferredSizeWidget {
           color: context.theme.authAppbarTextColor,
         ),
       ),
-      centerTitle: true,
+      centerTitle: isCenterTitle,
       leading: CustomIconButton(
         icon: Icons.arrow_back,
         onPressed: () => Navigator.of(context).pop(),

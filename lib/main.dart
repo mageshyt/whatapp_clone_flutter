@@ -1,4 +1,3 @@
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
       darkTheme: darkTheme(),
       themeMode: ThemeMode.system,
       title: 'Whatsapp me',
-      home: const UserInformationView(),
+      home: const Welcome_screen(),
       onGenerateRoute: Routes.onGenerateRoute,
     );
   }

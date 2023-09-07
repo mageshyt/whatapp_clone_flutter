@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:whatapp_clone/common/common.dart';
+import 'package:whatapp_clone/features/auth/pages/image_picker_view.dart';
 import 'package:whatapp_clone/features/auth/widgets/custom_text_field.dart';
+import 'package:whatapp_clone/features/auth/widgets/image_picker_icon.dart';
 import 'package:whatapp_clone/features/auth/widgets/short_h_bar.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 
@@ -24,7 +26,9 @@ class _UserInformationViewState extends State<UserInformationView> {
           return Column(
             // mainAxisSize: MainAxisSize.min,
             children: [
-              const ShortHBar(),
+              const ShortHBar(
+                width: 50,
+              ),
               // ------ title ------
               Container(
                 padding: const EdgeInsets.all(10),
@@ -37,9 +41,11 @@ class _UserInformationViewState extends State<UserInformationView> {
                         )),
                     const Spacer(),
                     // ------ close icon ------
-                    IconButton(
+                    CustomIconButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      icon: const Icon(Icons.close),
+                      icon: (Icons.close),
+                      iconsColor: context.theme.greyColor,
+                      iconSize: 30,
                     ),
                   ],
                 ),
@@ -48,8 +54,33 @@ class _UserInformationViewState extends State<UserInformationView> {
               // -------- Divider ------
               Divider(
                 color: context.theme.greyColor!.withOpacity(0.2),
-              )
+              ),
               // ------ camera ------
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  ImagePickerIcon(
+                      icon: Icons.camera_alt_rounded,
+                      title: 'Camera',
+                      onTap: () {}),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  ImagePickerIcon(
+                      icon: Icons.photo_library_rounded,
+                      title: 'Gallery',
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const ImagePickerView(),
+                          ),
+                        );
+                      })
+                ],
+              )
             ],
           );
         });
