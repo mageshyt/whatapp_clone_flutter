@@ -1,5 +1,10 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:whatapp_clone/common/common.dart';
+import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
 import 'package:whatapp_clone/features/auth/pages/image_picker_view.dart';
 import 'package:whatapp_clone/features/auth/widgets/custom_text_field.dart';
 import 'package:whatapp_clone/features/auth/widgets/image_picker_icon.dart';
@@ -14,6 +19,10 @@ class UserInformationView extends StatefulWidget {
 }
 
 class _UserInformationViewState extends State<UserInformationView> {
+  // ------ image ------
+  File? imageCamera;
+  Uint8List? imageGallery;
+
 // -----controller name -----
 
   final name_controller = TextEditingController();
@@ -64,26 +73,50 @@ class _UserInformationViewState extends State<UserInformationView> {
                   ImagePickerIcon(
                       icon: Icons.camera_alt_rounded,
                       title: 'Camera',
-                      onTap: () {}),
+                      onTap: pickImageFromCamera),
                   const SizedBox(
                     width: 30,
                   ),
                   ImagePickerIcon(
                       icon: Icons.photo_library_rounded,
                       title: 'Gallery',
-                      onTap: () {
+                      onTap: () async {
                         Navigator.of(context).pop();
-                        Navigator.of(context).push(
+                        final image = await Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => const ImagePickerView(),
                           ),
                         );
+
+                        if (image != null) {
+                          setState(() {
+                            imageGallery = image as Uint8List?;
+                            imageCamera = null;
+                          });
+                        }
                       })
                 ],
               )
             ],
           );
         });
+  }
+
+// ----- capture image -----
+
+  pickImageFromCamera() async {
+    Navigator.of(context).pop();
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      setState(() {
+        imageCamera = imageTemporary;
+        imageGallery = null;
+      });
+    } catch (e) {
+      showAlertDialog(context: context, content: e.toString(), title: 'Error');
+    }
   }
 
   @override
@@ -117,14 +150,29 @@ class _UserInformationViewState extends State<UserInformationView> {
               width: 100,
               height: 100,
               decoration: BoxDecoration(
-                color: context.theme.photoIconBgColor,
-                borderRadius: BorderRadius.circular(100),
-              ),
-              child: Icon(
-                Icons.add_a_photo_rounded,
-                size: 48,
-                color: context.theme.photoIconColor,
-              ),
+                  color: context.theme.photoIconBgColor,
+                  borderRadius: BorderRadius.circular(100),
+                  border: Border.all(
+                    color: imageCamera == null && imageGallery == null
+                        ? context.theme.photoIconColor!.withOpacity(0.5)
+                        : Colors.transparent,
+                    width: 2,
+                  ),
+                  image: imageCamera != null || imageGallery != null
+                      ? DecorationImage(
+                          image: imageCamera != null
+                              ? FileImage(imageCamera!)
+                              : MemoryImage(imageGallery!) as ImageProvider,
+                          fit: BoxFit.cover,
+                        )
+                      : null),
+              child: imageCamera == null && imageGallery == null
+                  ? Icon(
+                      Icons.add_a_photo_rounded,
+                      size: 48,
+                      color: context.theme.photoIconColor,
+                    )
+                  : null,
             ),
           ),
           // -------- name textfield-----

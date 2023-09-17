@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       darkTheme: darkTheme(),
       themeMode: ThemeMode.system,
       title: 'Whatsapp me',
-      home: const Welcome_screen(),
+      home: const UserInformationView(),
       onGenerateRoute: Routes.onGenerateRoute,
     );
   }

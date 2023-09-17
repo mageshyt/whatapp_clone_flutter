@@ -1,9 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
 import 'package:whatapp_clone/common/widgets/reuse_appbar.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
@@ -20,6 +18,7 @@ class _ImagePickerViewState extends State<ImagePickerView> {
   int? last_page;
   // handle pagination
   handleEventScroll(ScrollNotification scroll) {
+    debugPrint('scroll metrics: ${scroll.metrics}');
     if (scroll.metrics.pixels == scroll.metrics.maxScrollExtent) {
       if (current_page != last_page) {
         current_page++;
@@ -39,6 +38,7 @@ class _ImagePickerViewState extends State<ImagePickerView> {
 
     // if permission not granted
     if (!permission.isAuth) {
+      print('permission not granted');
       return PhotoManager.openSetting();
     }
 
@@ -64,12 +64,7 @@ class _ImagePickerViewState extends State<ImagePickerView> {
             if (snapshot.connectionState == ConnectionState.done &&
                 snapshot.hasData) {
               return InkWell(
-                onTap: () {
-                  showAlertDialog(
-                    context: context,
-                    content: "Image Selected",
-                  );
-                },
+               onTap: () => Navigator.pop(context, snapshot.data),
                 borderRadius: BorderRadius.circular(5),
                 child: Padding(
                   padding: const EdgeInsets.all(2.0),
@@ -95,7 +90,6 @@ class _ImagePickerViewState extends State<ImagePickerView> {
       );
     }
 
-    debugPrint('temp length: ${temp.length}');
     setState(() {
       images.addAll(temp);
     });
@@ -117,16 +111,22 @@ class _ImagePickerViewState extends State<ImagePickerView> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(6),
-        child: GridView.builder(
-            itemCount: images.length,
-            itemBuilder: (context, index) {
-              return images[index];
-            },
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: 6,
-              mainAxisSpacing: 6,
-            )),
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (scroll) {
+            handleEventScroll(scroll);
+            return true;
+          },
+          child: GridView.builder(
+              itemCount: images.length,
+              itemBuilder: (context, index) {
+                return images[index];
+              },
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 6,
+                mainAxisSpacing: 6,
+              )),
+        ),
       ),
     );
   }
