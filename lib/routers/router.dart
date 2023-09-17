@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whatapp_clone/features/auth/pages/login_view.dart';
 import 'package:whatapp_clone/features/auth/pages/opt_view.dart';
 import 'package:whatapp_clone/features/auth/pages/user_information_view.dart';
+import 'package:whatapp_clone/features/home/view/home_view.dart';
 import 'package:whatapp_clone/features/welcome/view/welcome_screen.dart';
 
 class Routes {
@@ -9,6 +10,7 @@ class Routes {
   static const String login = 'login';
   static const String verification = 'verification';
   static const String userInformation = 'userInformation';
+  static const String home = 'home';
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case welcome:
@@ -26,6 +28,9 @@ class Routes {
       case userInformation:
         return MaterialPageRoute(
             builder: (context) => const UserInformationView());
+
+      case home:
+        return MaterialPageRoute(builder: (context) => const HomeView());
       default:
         return MaterialPageRoute(
           builder: (context) => const Scaffold(

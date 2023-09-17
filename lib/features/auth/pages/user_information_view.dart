@@ -2,30 +2,52 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:whatapp_clone/common/common.dart';
 import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
+import 'package:whatapp_clone/features/auth/controllers/auth_controller.dart';
 import 'package:whatapp_clone/features/auth/pages/image_picker_view.dart';
 import 'package:whatapp_clone/features/auth/widgets/custom_text_field.dart';
 import 'package:whatapp_clone/features/auth/widgets/image_picker_icon.dart';
 import 'package:whatapp_clone/features/auth/widgets/short_h_bar.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 
-class UserInformationView extends StatefulWidget {
+class UserInformationView extends ConsumerStatefulWidget {
   const UserInformationView({Key? key}) : super(key: key);
 
   @override
   _UserInformationViewState createState() => _UserInformationViewState();
 }
 
-class _UserInformationViewState extends State<UserInformationView> {
+class _UserInformationViewState extends ConsumerState<UserInformationView> {
   // ------ image ------
   File? imageCamera;
   Uint8List? imageGallery;
 
 // -----controller name -----
 
-  final name_controller = TextEditingController();
+  late TextEditingController usernameController;
+
+  // --- function to save user data
+  saveUserDataToFirebase() async {
+    String username = usernameController.text;
+    print(username);
+    if (username.isEmpty) {
+      return showAlertDialog(
+          context: context, content: 'Please provide a username');
+    } else if (username.length < 3 || username.length >= 20) {
+      return showAlertDialog(
+          context: context,
+          content: 'A username length should be between 3-20');
+    }
+
+    ref.read(authControllerProvider).saveUserInfo(
+        username: username,
+        profileImage: imageCamera ?? imageGallery ?? '',
+        context: context,
+        mounted: mounted);
+  }
 
   // ------- image picker type bottomsheet------\
   imagePickerTypeBottomSheet() {
@@ -33,7 +55,7 @@ class _UserInformationViewState extends State<UserInformationView> {
         context: context,
         builder: (context) {
           return Column(
-            // mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min,
             children: [
               const ShortHBar(
                 width: 50,
@@ -96,6 +118,9 @@ class _UserInformationViewState extends State<UserInformationView> {
                         }
                       })
                 ],
+              ),
+              const SizedBox(
+                height: 60,
               )
             ],
           );
@@ -117,6 +142,18 @@ class _UserInformationViewState extends State<UserInformationView> {
     } catch (e) {
       showAlertDialog(context: context, content: e.toString(), title: 'Error');
     }
+  }
+
+  @override
+  void initState() {
+    usernameController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    super.dispose();
   }
 
   @override
@@ -181,7 +218,7 @@ class _UserInformationViewState extends State<UserInformationView> {
             children: [
               Expanded(
                 child: CustomTextField(
-                  controller: TextEditingController(),
+                  controller: usernameController,
                   hintText: 'Enter your name',
                   textAlign: TextAlign.left,
                 ),
@@ -201,8 +238,8 @@ class _UserInformationViewState extends State<UserInformationView> {
         ]),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton:
-          CustomElevatedButton(onPressed: () {}, label: "Next"),
+      floatingActionButton: CustomElevatedButton(
+          onPressed: saveUserDataToFirebase, label: "Next"),
     );
   }
 }
