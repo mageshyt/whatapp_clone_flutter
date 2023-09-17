@@ -5,7 +5,7 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField(
       {Key? key,
       required this.controller,
-      required this.label,
+      this.label,
       required this.hintText,
       this.readonly,
       this.textAlign,
@@ -16,7 +16,7 @@ class CustomTextField extends StatelessWidget {
       : super(key: key);
 
   final TextEditingController controller;
-  final String label;
+  final String? label;
   final String hintText;
   final bool? readonly;
   final TextAlign? textAlign;

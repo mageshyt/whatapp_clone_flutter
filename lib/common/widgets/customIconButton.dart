@@ -9,6 +9,8 @@ class CustomIconButton extends StatelessWidget {
   final double? iconSize;
   final double? minWidth;
   final Color? iconsColor;
+  final Color? backgroundColor;
+  final BoxBorder? border;
   const CustomIconButton({
     super.key,
     required this.icon,
@@ -17,19 +19,31 @@ class CustomIconButton extends StatelessWidget {
     this.iconSize,
     this.minWidth,
     this.iconsColor,
+    this.backgroundColor,
+    this.border,
   });
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: onPressed,
-      icon: Icon(icon, color: iconsColor ?? context.theme.greyColor),
-      constraints: BoxConstraints(minWidth: minWidth ?? 40),
-      splashRadius: 22,
-      iconSize: iconSize ?? 22,
-      padding: EdgeInsets.zero,
-      splashColor: Colors.transparent,
-      color: color ?? ThemeColors.greenDark,
+    return Container(
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        shape: BoxShape.circle,
+        border: border,
+      ),
+      child: IconButton(
+        onPressed: onPressed,
+        icon: Icon(icon, color: iconsColor ?? context.theme.greyColor),
+        constraints: BoxConstraints(
+          minWidth: minWidth ?? 45,
+          minHeight: minWidth ?? 45,
+        ),
+        splashRadius: (minWidth ?? 40) - 22,
+        iconSize: iconSize ?? 22,
+        padding: EdgeInsets.zero,
+        splashColor: Colors.transparent,
+        color: color ?? ThemeColors.greenDark,
+      ),
     );
   }
 }

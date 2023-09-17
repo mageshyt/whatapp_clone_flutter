@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whatapp_clone/features/auth/pages/user_information_view.dart';
 import 'package:whatapp_clone/features/welcome/view/welcome_screen.dart';
 import 'package:whatapp_clone/firebase_options.dart';
 import 'package:whatapp_clone/routers/router.dart';
