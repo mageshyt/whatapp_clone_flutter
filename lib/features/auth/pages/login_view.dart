@@ -75,7 +75,11 @@ class _LoginViewState extends ConsumerState<LoginView> {
 
     // if phone number is empty
 
-    else if (phoneController.text.isEmpty || phoneController.text.length < 9) {
+    else if (phoneController.text.isEmpty ||
+        phoneController.text.length < 9 ||
+        phoneController.text.length > 10 ||
+        phoneController.text.contains(RegExp(r'[A-Z]')) ||
+        phoneController.text.contains(RegExp(r'[a-z]'))) {
       showAlertDialog(
         context: context,
         content: "Please enter your phone number",
