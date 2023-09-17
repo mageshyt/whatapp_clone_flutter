@@ -73,7 +73,7 @@ class AuthRepository {
     UserModel? user;
     final userInfo =
         await firestore.collection('users').doc(auth.currentUser?.uid).get();
-
+    debugPrint('user info ${userInfo.data()}');
     if (userInfo.data() == null) return user;
     user = UserModel.fromMap(userInfo.data()!);
     return user;
