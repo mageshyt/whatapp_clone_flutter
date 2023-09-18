@@ -182,6 +182,7 @@ class ContactView extends ConsumerWidget {
             ),
             error: (err, trac) {
               showAlertDialog(context: context, content: err.toString());
+              return null;
             },
             loading: () => const Loader(),
           ),

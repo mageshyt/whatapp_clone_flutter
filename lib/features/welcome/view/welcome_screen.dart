@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:whatapp_clone/features/auth/pages/login_view.dart';
 import 'package:whatapp_clone/features/welcome/widgets/PrivacyAndTerms.dart';
 import 'package:whatapp_clone/common/common.dart';
 import 'package:whatapp_clone/features/welcome/widgets/languageButton.dart';
