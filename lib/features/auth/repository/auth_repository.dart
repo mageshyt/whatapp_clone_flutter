@@ -99,9 +99,10 @@ class AuthRepository {
 
       // ---- upload it to the collection ----
       UserModel user = UserModel(
+          lastSeen: DateTime.now().millisecondsSinceEpoch,
           name: name,
           uid: uid,
-          profilePhotoUrl: profileImageUrl,
+          profilePic: profileImageUrl,
           isOnline: true,
           phoneNumber: auth.currentUser!.phoneNumber ?? '',
           groupId: []);

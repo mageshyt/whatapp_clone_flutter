@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
 import 'package:whatapp_clone/common/widgets/loader.dart';
 import 'package:whatapp_clone/features/auth/controllers/auth_controller.dart';
-import 'package:whatapp_clone/features/auth/pages/user_information_view.dart';
 import 'package:whatapp_clone/features/home/view/home_view.dart';
 import 'package:whatapp_clone/features/welcome/view/welcome_screen.dart';
 import 'package:whatapp_clone/firebase_options.dart';

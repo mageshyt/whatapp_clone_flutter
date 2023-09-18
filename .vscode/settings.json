@@ -1,3 +1,10 @@
 {
-  "cSpell.words": ["Appbar", "Firestore", "goback", "Hightlight", "uploadtask"]
+  "cSpell.words": [
+    "Appbar",
+    "Firestore",
+    "goback",
+    "Hightlight",
+    "riverpod",
+    "uploadtask"
+  ]
 }
