@@ -33,7 +33,9 @@ class CustomIconButton extends StatelessWidget {
       ),
       child: IconButton(
         onPressed: onPressed,
-        icon: Icon(icon, color: iconsColor ?? context.theme.greyColor),
+        icon: Icon(icon,
+            color:
+                iconsColor ?? Theme.of(context).appBarTheme.iconTheme!.color),
         constraints: BoxConstraints(
           minWidth: minWidth ?? 45,
           minHeight: minWidth ?? 45,
