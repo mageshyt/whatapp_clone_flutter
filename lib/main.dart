@@ -33,8 +33,8 @@ class MyApp extends ConsumerWidget {
       title: 'Whatsapp me',
       home: ref.watch(userAuthProvider).when(
           data: (user) {
-            debugPrint(user!.uid);
-            return user.uid == null ? const Welcome_screen() : const HomeView();
+            // return user.uid == null ? const Welcome_screen() : const HomeView();
+            return const Welcome_screen();
           },
           error: (err, trace) {
             return showAlertDialog(context: context, content: err.toString());

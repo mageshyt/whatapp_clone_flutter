@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
+import 'package:whatapp_clone/common/helper/show_loading_dialoge.dart';
 import 'package:whatapp_clone/common/repositories/common_firebase_storge_repo.dart';
 import 'package:whatapp_clone/models/user_model.dart';
 
@@ -21,7 +22,10 @@ class AuthRepository {
 
   void signInWithPhone(BuildContext context, String phone) async {
     try {
-      debugPrint(phone);
+      showLoadingDialog(
+        context: context,
+        message: "Sending a verification code to $phone",
+      );
       // verify the phone
       await auth.verifyPhoneNumber(
           phoneNumber: phone,
@@ -55,6 +59,10 @@ class AuthRepository {
     required String OTP,
   }) async {
     try {
+      showLoadingDialog(
+        context: context,
+        message: 'Verifiying code ... ',
+      );
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: OTP);
       await auth.signInWithCredential(credential);
@@ -77,7 +85,7 @@ class AuthRepository {
     return user;
   }
 
-  // ---- function to save user to firebase0000
+  // ---- function to save user to firebase ----
   void saveUserDataToFirebase(
       {required String name,
       required var profileImage,
@@ -85,6 +93,10 @@ class AuthRepository {
       required BuildContext context,
       required bool mounted}) async {
     try {
+      showLoadingDialog(
+        context: context,
+        message: "Saving user info ... ",
+      );
       String uid = auth.currentUser!.uid;
       String profileImageUrl = profileImage is String ? profileImage : '';
 

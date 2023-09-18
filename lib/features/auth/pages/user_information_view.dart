@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:whatapp_clone/common/common.dart';
 import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
+import 'package:whatapp_clone/common/helper/show_loading_dialoge.dart';
 import 'package:whatapp_clone/features/auth/controllers/auth_controller.dart';
 import 'package:whatapp_clone/features/auth/pages/image_picker_view.dart';
 import 'package:whatapp_clone/features/auth/widgets/custom_text_field.dart';
@@ -31,8 +32,9 @@ class _UserInformationViewState extends ConsumerState<UserInformationView> {
 
   // --- function to save user data
   saveUserDataToFirebase() async {
+
+    showLoadingDialog(context: context, message:' ' );
     String username = usernameController.text;
-    print(username);
     if (username.isEmpty) {
       return showAlertDialog(
           context: context, content: 'Please provide a username');
@@ -49,7 +51,7 @@ class _UserInformationViewState extends ConsumerState<UserInformationView> {
         mounted: mounted);
   }
 
-  // ------- image picker type bottomsheet------\
+  // ------- image picker type bottomsheet------
   imagePickerTypeBottomSheet() {
     return showModalBottomSheet(
         context: context,
