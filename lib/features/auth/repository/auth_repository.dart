@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod/riverpod.dart';
@@ -10,16 +11,53 @@ import 'package:whatapp_clone/models/user_model.dart';
 
 import 'package:whatapp_clone/routers/router.dart';
 
-final authRepositoryProvider = Provider((ref) => AuthRepository(
-    auth: FirebaseAuth.instance, firestore: FirebaseFirestore.instance));
+final authRepositoryProvider = Provider(
+  (ref) => AuthRepository(
+      auth: FirebaseAuth.instance,
+      firestore: FirebaseFirestore.instance,
+      realtime: FirebaseDatabase.instance),
+);
 
 class AuthRepository {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
   final FirebaseStorage storage = FirebaseStorage.instance;
+  final FirebaseDatabase realtime;
 
-  AuthRepository({required this.auth, required this.firestore});
+  AuthRepository({
+    required this.auth,
+    required this.firestore,
+    required this.realtime,
+  });
 
+  // --- function to update the user presence
+  void updateUserPresence() async {
+    Map<String, dynamic> online = {
+      'isOnline': true,
+      'lastSeen': DateTime.now().millisecondsSinceEpoch
+    };
+    Map<String, dynamic> offline = {
+      'isOnline': false,
+      'lastSeen': DateTime.now().millisecondsSinceEpoch
+    };
+
+    debugPrint('user id ${auth.currentUser!.uid}');
+    debugPrint(online.toString());
+    final connectedRef = realtime.ref('.info/connected');
+
+    final uid = auth.currentUser!.uid;
+
+    connectedRef.onValue.listen((event) async {
+      final isConnected = event.snapshot.value as bool;
+      if (isConnected) {
+        await realtime.ref().child(uid).update(online);
+      } else {
+        await realtime.ref().child(uid).onDisconnect().update(offline);
+      }
+    });
+  }
+
+//  ---- function to sign in with phone number ----
   void signInWithPhone(BuildContext context, String phone) async {
     try {
       showLoadingDialog(

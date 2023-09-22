@@ -43,7 +43,7 @@ class Routes {
 
         return MaterialPageRoute(
             builder: (context) => ChatView(
-                  user: args['users'],
+                  user: args['user'],
                 ));
       default:
         return MaterialPageRoute(

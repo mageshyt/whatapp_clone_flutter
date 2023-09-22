@@ -6,14 +6,16 @@ class ChatHomeView extends StatelessWidget {
 
   // ---- method to navigate to contact view---
   navigateToContactPage(context) {
-    Navigator.pushNamedAndRemoveUntil(
-        context, Routes.contact, (route) => false);
+    Navigator.pushNamed(
+      context,
+      Routes.contact,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
+        body: const Center(
           child: Text('Chat Home View'),
         ),
         floatingActionButton: FloatingActionButton(

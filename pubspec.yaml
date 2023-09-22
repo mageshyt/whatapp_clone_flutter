@@ -45,6 +45,7 @@ dependencies:
   flutter_riverpod: ^2.3.10
   image_picker: ^1.0.4
   photo_manager: ^2.7.1
+  firebase_database: ^10.2.6
 
 flutter_icons:
   android: true
