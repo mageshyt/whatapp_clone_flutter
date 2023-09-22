@@ -3,7 +3,7 @@ class UserModel {
   final String phoneNumber;
   final String profilePic;
   final String? uid;
-  final bool isOnline;
+  late final bool isOnline;
   final List<String> groupId;
   final int lastSeen;
 

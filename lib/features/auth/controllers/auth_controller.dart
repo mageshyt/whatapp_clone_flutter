@@ -20,15 +20,19 @@ class AuthController {
   AuthController({required this.authRepository, required this.ref});
 
   void updateUserPresence() {
-    return authRepository.updateUserPresence(  );
+    return authRepository.updateUserPresence();
   }
 
+Stream getUserPresenceStatus(String uid) {
+    return authRepository.getUserPresenceStatus(uid);
+  }
   Future<UserModel?> getUserData() async {
     UserModel? user = await authRepository.getCurrentUserInfo();
 
     return user;
   }
 
+  // ignore: non_constant_identifier_names
   void singInWithPhone(BuildContext context, String PhoneNumber) {
     authRepository.signInWithPhone(context, PhoneNumber);
   }

@@ -30,15 +30,35 @@ class AuthRepository {
     required this.realtime,
   });
 
+  // ---- function to get user status----
+  Stream  getUserPresenceStatus(String uid) {
+    // return auth.authStateChanges().asyncMap((user) async {
+    //   if (user == null) return null;
+
+    //   final userInfo = await firestore.collection('users').doc(user.uid).get();
+
+    //   if (userInfo.data() == null) return null;
+
+    //   return UserModel.fromMap(userInfo.data()!);
+    // });
+    // get the last seen and isOnline status from realtime database
+    return realtime.ref().child(uid).onValue.map((event) {
+      final data = event.snapshot.value as Map<dynamic, dynamic>;
+      debugPrint('data $data');
+      if (data.isEmpty) return null;
+      return data;
+    });
+  }
+
   // --- function to update the user presence
   void updateUserPresence() async {
     Map<String, dynamic> online = {
       'isOnline': true,
-      'lastSeen': DateTime.now().millisecondsSinceEpoch
+      'lastseen': DateTime.now().millisecondsSinceEpoch
     };
     Map<String, dynamic> offline = {
       'isOnline': false,
-      'lastSeen': DateTime.now().millisecondsSinceEpoch
+      'lastseen': DateTime.now().millisecondsSinceEpoch
     };
 
     debugPrint('user id ${auth.currentUser!.uid}');
@@ -50,9 +70,15 @@ class AuthRepository {
     connectedRef.onValue.listen((event) async {
       final isConnected = event.snapshot.value as bool;
       if (isConnected) {
+        // ---- update the user online status  in realtime db----
         await realtime.ref().child(uid).update(online);
+
+        // ---- update the user online status in firestore db----
+
+        await firestore.collection('users').doc(uid).update(online);
       } else {
         await realtime.ref().child(uid).onDisconnect().update(offline);
+        await firestore.collection('users').doc(uid).update(offline);
       }
     });
   }
