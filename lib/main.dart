@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
 import 'package:whatapp_clone/common/widgets/loader.dart';
@@ -12,7 +13,10 @@ import 'package:whatapp_clone/theme/dark_theme.dart';
 import 'package:whatapp_clone/theme/light_theme.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // this will keep the splash screen in the screen until the app is fully loaded
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -33,7 +37,11 @@ class MyApp extends ConsumerWidget {
       title: 'Whatsapp me',
       home: ref.watch(userAuthProvider).when(
           data: (user) {
-            // return user.uid == null ? const Welcome_screen() : const HomeView();
+            // this will remove the splash screen
+            FlutterNativeSplash.remove();
+            // return user?.uid == null
+            //     ? const Welcome_screen()
+            //     : const HomeView();
             return const Welcome_screen();
           },
           error: (err, trace) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whatapp_clone/features/auth/pages/login_view.dart';
 import 'package:whatapp_clone/features/auth/pages/opt_view.dart';
 import 'package:whatapp_clone/features/auth/pages/user_information_view.dart';
+import 'package:whatapp_clone/features/chat/view/chat_view.dart';
 import 'package:whatapp_clone/features/contact/pages/contact_view.dart';
 import 'package:whatapp_clone/features/home/view/home_view.dart';
 import 'package:whatapp_clone/features/welcome/view/welcome_screen.dart';
@@ -13,6 +14,7 @@ class Routes {
   static const String userInformation = 'userInformation';
   static const String home = 'home';
   static const String contact = 'contact';
+  static const String chat = 'chat';
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case welcome:
@@ -36,6 +38,13 @@ class Routes {
 
       case contact:
         return MaterialPageRoute(builder: (context) => const ContactView());
+      case chat:
+        final Map args = settings.arguments as Map;
+
+        return MaterialPageRoute(
+            builder: (context) => ChatView(
+                  user: args['users'],
+                ));
       default:
         return MaterialPageRoute(
           builder: (context) => const Scaffold(

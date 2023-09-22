@@ -10,15 +10,15 @@ class ContactCard extends StatelessWidget {
   final int idx;
   final UserModel contact;
   final bool isPhoneContact;
-  final int? contactLength;
+  final VoidCallback? onTap;
 
-  const ContactCard(
-      {Key? key,
-      required this.idx,
-      required this.contact,
-      required this.isPhoneContact,
-      this.contactLength})
-      : super(key: key);
+  const ContactCard({
+    Key? key,
+    required this.idx,
+    required this.contact,
+    this.onTap,
+    required this.isPhoneContact,
+  }) : super(key: key);
 
 //-- share SMS Link--
 
@@ -36,17 +36,6 @@ class ContactCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (idx == 0 || idx == contactLength)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Text(
-              'Contacts on whatApp',
-              style: TextStyle(
-                  color: context.theme.greyColor,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500),
-            ),
-          ),
         ListTile(
           contentPadding: EdgeInsets.only(
               left: 20,

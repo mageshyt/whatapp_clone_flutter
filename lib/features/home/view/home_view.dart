@@ -22,8 +22,8 @@ class HomeView extends StatelessWidget {
           ),
           elevation: 1,
           actions: [
-            CustomIconButton(icon: Icons.search, onPressed: () {}),
-            CustomIconButton(icon: Icons.more_vert, onPressed: () {})
+            CustomIconButton(icon: Icons.search, onPressed: () {}, iconSize: 25,),
+            CustomIconButton(icon: Icons.more_vert, onPressed: () {},iconSize: 25,)
           ],
           bottom: const TabBar(
             splashFactory: NoSplash.splashFactory,

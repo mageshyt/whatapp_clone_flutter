@@ -19,7 +19,7 @@ class ContractRepository {
   Future<List<List<UserModel>>> getAllContacts2() async {
     List<UserModel> firebaseContacts = [];
     List<UserModel> phoneContacts = [];
-    debugPrint("getting                          contacts");
+    debugPrint("getting contacts");
     try {
       // Request permission to access phone contacts
       if (await FlutterContacts.requestPermission()) {
@@ -34,16 +34,25 @@ class ContractRepository {
         // Fetch contacts from the phone
         final allContactsInThePhone = await FlutterContacts.getContacts(
           withProperties: true,
+          withThumbnail: true,
+          sorted: true,
         );
 
         // Iterate through phone contacts
         for (var contact in allContactsInThePhone) {
           bool isContactFound = false;
           debugPrint('contact ${contact.phones[0].number.replaceAll(' ', '')}');
+          // make contract to compare with firebase contact [without +91 or  without space]
+          String phone_without_space =
+              contact.phones[0].number.replaceAll(' ', '');
+          String phone_without_code =
+              contact.phones[0].number.replaceAll('+91', '');
+
           // Check if the phone contact exists in Firebase
           for (var firebaseContact in firebaseContactList) {
-            if (contact.phones[0].number.replaceAll(' ', '') ==
-                firebaseContact.phoneNumber) {
+            if ((phone_without_code ==
+                    firebaseContact.phoneNumber.replaceAll('+91', '')) ||
+                (phone_without_space == firebaseContact.phoneNumber)) {
               firebaseContacts.add(firebaseContact);
               isContactFound = true;
               break;
@@ -70,6 +79,8 @@ class ContractRepository {
       log('Error: $e');
       // Handle errors here
     }
+    debugPrint('firebaseContacts ${firebaseContacts.length}');
+    debugPrint('phoneContacts ${phoneContacts.length}');
 
     return [firebaseContacts, phoneContacts];
   }
