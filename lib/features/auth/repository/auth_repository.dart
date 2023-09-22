@@ -31,23 +31,23 @@ class AuthRepository {
   });
 
   // ---- function to get user status----
-  Stream  getUserPresenceStatus(String uid) {
-    // return auth.authStateChanges().asyncMap((user) async {
-    //   if (user == null) return null;
+  Stream<UserModel?>  getUserPresenceStatus(String uid) {
+    return auth.authStateChanges().asyncMap((user) async {
+      if (user == null) return null;
 
-    //   final userInfo = await firestore.collection('users').doc(user.uid).get();
+      final userInfo = await firestore.collection('users').doc(user.uid).get();
 
-    //   if (userInfo.data() == null) return null;
+      if (userInfo.data() == null) return null;
 
-    //   return UserModel.fromMap(userInfo.data()!);
-    // });
-    // get the last seen and isOnline status from realtime database
-    return realtime.ref().child(uid).onValue.map((event) {
-      final data = event.snapshot.value as Map<dynamic, dynamic>;
-      debugPrint('data $data');
-      if (data.isEmpty) return null;
-      return data;
+      return UserModel.fromMap(userInfo.data()!);
     });
+    // get the last seen and isOnline status from realtime database
+    // return realtime.ref().child(uid).onValue.map((event) {
+    //   final data = event.snapshot.value as Map<dynamic, dynamic>;
+    //   debugPrint('data $data');
+    //   if (data.isEmpty) return null;
+    //   return data;
+    // });
   }
 
   // --- function to update the user presence

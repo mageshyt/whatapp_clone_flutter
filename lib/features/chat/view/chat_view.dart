@@ -36,49 +36,56 @@ class ChatView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // --- name----
-            Text(
-              user.name,
-              style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
-            const SizedBox(height: 3),
-            // --- status----
-
-            StreamBuilder(
-              stream: ref
-                  .watch(authRepositoryProvider)
-                  .getUserPresenceStatus(user.uid as String),
-              builder: (_, snapshot) {
-                if (snapshot.connectionState != ConnectionState.active) {
-                  return const Text(
-                    'connecting',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
-                    ),
-                  );
-                }
-
-                final singleUserModel = snapshot.data!;
-                debugPrint('single user model ${singleUserModel['isOnline']}');
-                return Text(
-                  singleUserModel['isOnline']
-                      ? 'online'
-                      : '${lastSeenMessage(singleUserModel['lastseen'])}',
+        title: InkWell(
+          onTap: () {},
+          borderRadius: BorderRadius.circular(4),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // --- name----
+                Text(
+                  user.name,
                   style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
-                );
-              },
-            )
-          ],
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+                const SizedBox(height: 3),
+                // --- status----
+
+                StreamBuilder(
+                  stream: ref
+                      .watch(authRepositoryProvider)
+                      .getUserPresenceStatus(user.uid as String),
+                  builder: (_, snapshot) {
+                    if (snapshot.connectionState != ConnectionState.active) {
+                      return const Text(
+                        'connecting',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.white,
+                        ),
+                      );
+                    }
+
+                    final singleUserModel = snapshot.data!;
+                    // debugPrint('single user model ${singleUserModel['isOnline']}');
+                    return Text(
+                      singleUserModel.isOnline
+                          ? 'online'
+                          : '${lastSeenMessage(singleUserModel.lastSeen)}',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    );
+                  },
+                )
+              ],
+            ),
+          ),
         ),
         leading: InkWell(
           onTap: () => navigateToContactPage(context),

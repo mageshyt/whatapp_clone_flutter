@@ -23,7 +23,7 @@ class AuthController {
     return authRepository.updateUserPresence();
   }
 
-Stream getUserPresenceStatus(String uid) {
+Stream<UserModel?> getUserPresenceStatus(String uid) {
     return authRepository.getUserPresenceStatus(uid);
   }
   Future<UserModel?> getUserData() async {
