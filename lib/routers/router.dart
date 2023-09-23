@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whatapp_clone/features/auth/pages/login_view.dart';
 import 'package:whatapp_clone/features/auth/pages/opt_view.dart';
 import 'package:whatapp_clone/features/auth/pages/user_information_view.dart';
+import 'package:whatapp_clone/features/chat/view/FullScreenImageScreen.dart';
 import 'package:whatapp_clone/features/chat/view/chat_view.dart';
 import 'package:whatapp_clone/features/chat/view/profile_view.dart';
 import 'package:whatapp_clone/features/contact/pages/contact_view.dart';
@@ -16,7 +17,9 @@ class Routes {
   static const String home = 'home';
   static const String contact = 'contact';
   static const String chat = 'chat';
-  static const String profile= 'chat-profile';
+  static const String profile = 'chat-profile';
+  static const String profilePic = 'chat-profile-pic';
+
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case welcome:
@@ -53,6 +56,14 @@ class Routes {
         return MaterialPageRoute(
             builder: (context) => ProfileView(
                   user: args['user'],
+                ));
+      case profilePic:
+        final Map args = settings.arguments as Map;
+
+        return MaterialPageRoute(
+            builder: (context) => FullScreenImageScreen(
+                  imageUrl: args['imageUrl'],
+                  title: args['title'],
                 ));
       default:
         return MaterialPageRoute(

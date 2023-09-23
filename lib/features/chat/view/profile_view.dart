@@ -5,6 +5,7 @@ import 'package:whatapp_clone/features/chat/widgets/IconWithText.dart';
 import 'package:whatapp_clone/features/chat/widgets/lastSeenMessage.dart';
 import 'package:whatapp_clone/features/chat/widgets/custom_list_title_chat.dart';
 import 'package:whatapp_clone/models/user_model.dart';
+import 'package:whatapp_clone/routers/router.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 
 import '../widgets/chat_user_info.widget.dart';
@@ -157,6 +158,13 @@ class SilverPersistentDelegate extends SliverPersistentHeaderDelegate {
 
   SilverPersistentDelegate(this.user);
 
+  // method to show the image in full screen
+
+  showImageInFullScreen(BuildContext context) {
+    Navigator.pushNamed(context, Routes.profilePic,
+        arguments: {'imageUrl': user.profilePic, 'title': user.name});
+  }
+
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
@@ -199,15 +207,18 @@ class SilverPersistentDelegate extends SliverPersistentHeaderDelegate {
               left: currentImagePosition,
               top: MediaQuery.of(context).viewPadding.top + 5,
               bottom: 5,
-              child: Hero(
-                tag: 'profile',
-                child: Container(
-                  width: currentImageSize,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        user.profilePic,
+              child: GestureDetector(
+                onTap: () => showImageInFullScreen(context),
+                child: Hero(
+                  tag: 'profile',
+                  child: Container(
+                    width: currentImageSize,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          user.profilePic,
+                        ),
                       ),
                     ),
                   ),

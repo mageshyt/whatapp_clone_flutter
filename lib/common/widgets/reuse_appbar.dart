@@ -5,17 +5,20 @@ import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 class ReuseableAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool isCenterTitle;
+  final Color? backgroundColor;
 
   const ReuseableAppbar({
     super.key,
     required this.title,
     this.isCenterTitle = true,
+    this.backgroundColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor:
+          backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
       elevation: 0,
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
