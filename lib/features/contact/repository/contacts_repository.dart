@@ -14,7 +14,23 @@ class ContractRepository {
   ContractRepository({FirebaseFirestore? firebaseFirestore})
       : firestore = firebaseFirestore ?? FirebaseFirestore.instance;
 
-  // get contact
+  // -----------------method to get firebase contacts-----------------
+  Future<List<UserModel>> getFirebaseContact() async {
+    List<UserModel> firebaseContacts = [];
+    try {
+      final userCollection = await firestore.collection('users').get();
+      final firebaseContactList = userCollection.docs
+          .map((doc) => UserModel.fromMap(doc.data()))
+          .toList();
+
+      firebaseContacts = firebaseContactList;
+    } catch (e) {
+      log('Error: $e');
+    }
+    return firebaseContacts;
+  }
+
+  // -----------------method to get all contacts-----------------
 
   Future<List<List<UserModel>>> getAllContacts2() async {
     List<UserModel> firebaseContacts = [];
