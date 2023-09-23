@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:whatapp_clone/common/common.dart';
+import 'package:whatapp_clone/constants/colors.dart';
 import 'package:whatapp_clone/features/chat/widgets/IconWithText.dart';
 import 'package:whatapp_clone/features/chat/widgets/lastSeenMessage.dart';
+import 'package:whatapp_clone/features/chat/widgets/custom_list_title_chat.dart';
 import 'package:whatapp_clone/models/user_model.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
+
+import '../widgets/chat_user_info.widget.dart';
 
 class ProfileView extends StatelessWidget {
   final UserModel user;
@@ -27,62 +31,115 @@ class ProfileView extends StatelessWidget {
                   // ---- name----
                   children: [
                     const SizedBox(height: 10),
-                    Text(
-                      user.name,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    const SizedBox(height: 5),
-                    // ---- phpne number----
-                    Text(
-                      user.phoneNumber,
-                      style: TextStyle(
-                        color: context.theme.greyColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    // --- status----
-                    Text(
-                      'last seen ${lastSeenMessage(user.lastSeen)}',
-                      style: TextStyle(
-                          color: context.theme.greyColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    const SizedBox(height: 10),
-
-                    // ---- media, docs, links, voice calls, video calls, groups, payments, settings----
-
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        IconWithText(
-                          icon: Icons.call,
-                          text: 'Call',
-                        ),
-                        IconWithText(
-                          icon: Icons.videocam,
-                          text: 'Video call',
-                        ),
-                        IconWithText(
-                          icon: Icons.search,
-                          text: 'search',
-                        ),
-                      ],
-                    )
+                    ChatUserInfoWidget(user: user),
                   ],
                 ),
               ),
-              const SizedBox(height: 300),
-              const SizedBox(height: 300),
-              const SizedBox(height: 300),
-              const SizedBox(height: 300),
-              const SizedBox(height: 300),
-              const SizedBox(height: 300),
-              const SizedBox(height: 300),
-              const SizedBox(height: 300),
+              // ---- Bio----
+              ListTile(
+                contentPadding: const EdgeInsets.only(left: 30),
+                title: const Text('Hey there! I am using WhatsApp.'),
+                subtitle: Text(
+                  "27th may ",
+                  style: TextStyle(
+                    color: context.theme.greyColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+
+              const Divider(
+                height: 0,
+                thickness: 0.5,
+              ),
+              // -------- Mute notification----
+              ChatCustomListTitle(
+                title: 'Mute notification',
+                leading: Icons.notifications,
+                trailing: Switch(
+                  value: false,
+                  onChanged: (value) {},
+                ),
+              ),
+              // ---- custom notification----
+              ChatCustomListTitle(
+                title: 'Custom notification',
+                leading: Icons.music_note,
+                trailing: Switch(
+                  value: false,
+                  onChanged: (value) {},
+                ),
+              ),
+              // ----- Media visibility----
+              ChatCustomListTitle(
+                title: 'Media visibility',
+                leading: Icons.photo,
+                trailing: Switch(
+                  value: false,
+                  onChanged: (value) {},
+                ),
+              ),
+
+              // ---- Encryption----
+              const ChatCustomListTitle(
+                title: 'Encryption',
+                leading: Icons.lock,
+                subTitle:
+                    'Messages and calls are end-to-end encrypted. Tap to verify.',
+              ),
+
+              // ---- disappearing messages----
+              const ChatCustomListTitle(
+                title: 'Disappearing messages',
+                subTitle: 'Off',
+                leading: Icons.timer,
+              ),
+
+              ListTile(
+                leading: CustomIconButton(
+                  onPressed: () {},
+                  icon: Icons.group,
+                  backgroundColor: ThemeColors.greenDark,
+                  iconsColor: Colors.white,
+                ),
+                title: Text('Create group with ${user.name}'),
+              ),
+              const SizedBox(height: 10),
+              // divider
+              const Divider(
+                height: 0,
+                thickness: 0.5,
+              ),
+              const SizedBox(height: 10),
+              ListTile(
+                contentPadding: const EdgeInsets.only(left: 25, right: 10),
+                leading: const Icon(
+                  Icons.block,
+                  color: ThemeColors.dangerLight,
+                ),
+                title: Text(
+                  'Block ${user.name}',
+                  style: const TextStyle(
+                    color: ThemeColors.dangerLight,
+                  ),
+                ),
+              ),
+              ListTile(
+                contentPadding: const EdgeInsets.only(left: 25, right: 10),
+                leading: const Icon(
+                  Icons.thumb_down,
+                  color: ThemeColors.dangerLight,
+                ),
+                title: Text(
+                  'Report ${user.name}',
+                  style: const TextStyle(
+                    color: ThemeColors.dangerLight,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 50),
             ]),
           )
         ],

@@ -61,8 +61,6 @@ class AuthRepository {
       'lastseen': DateTime.now().millisecondsSinceEpoch
     };
 
-    debugPrint('user id ${auth.currentUser!.uid}');
-    debugPrint(online.toString());
     final connectedRef = realtime.ref('.info/connected');
 
     final uid = auth.currentUser!.uid;
@@ -143,7 +141,6 @@ class AuthRepository {
     UserModel? user;
     final userInfo =
         await firestore.collection('users').doc(auth.currentUser?.uid).get();
-    debugPrint('user info ${userInfo.data()}');
     if (userInfo.data() == null) return user;
     user = UserModel.fromMap(userInfo.data()!);
     return user;
@@ -181,7 +178,7 @@ class AuthRepository {
           phoneNumber: auth.currentUser!.phoneNumber ?? '',
           groupId: []);
 
-      debugPrint('user ${user.toMap()}');
+      // debugPrint('user ${user.toMap()}');
       await firestore.collection('users').doc(uid).set(user.toMap());
       if (!mounted) {
         return;

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
 import 'package:whatapp_clone/common/widgets/loader.dart';
-import 'package:whatapp_clone/features/auth/repository/auth_repository.dart';
 import 'package:whatapp_clone/features/contact/controllers/contact_controller.dart';
 import 'package:whatapp_clone/features/contact/widgets/contact_card.dart';
 import 'package:whatapp_clone/models/user_model.dart';

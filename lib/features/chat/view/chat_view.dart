@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:whatapp_clone/features/chat/widgets/chat_appbar.dart';
+import 'package:whatapp_clone/features/chat/widgets/chat_appbar.widget.dart';
 import 'package:whatapp_clone/models/user_model.dart';
 import 'package:whatapp_clone/routers/router.dart';
 

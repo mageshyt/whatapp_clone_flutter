@@ -68,7 +68,7 @@ class ContractRepository {
         // Iterate through phone contacts
         for (var contact in allContactsInThePhone) {
           bool isContactFound = false;
-          debugPrint('contact ${contact.phones[0].number.replaceAll(' ', '')}');
+          // debugPrint('contact ${contact.phones[0].number.replaceAll(' ', '')}');
           // make contract to compare with firebase contact [without +91 or  without space]
           String phone_without_space =
               contact.phones[0].number.replaceAll(' ', '');
@@ -106,8 +106,8 @@ class ContractRepository {
       log('Error: $e');
       // Handle errors here
     }
-    debugPrint('firebaseContacts ${firebaseContacts.length}');
-    debugPrint('phoneContacts ${phoneContacts.length}');
+    // debugPrint('firebaseContacts ${firebaseContacts.length}');
+    // debugPrint('phoneContacts ${phoneContacts.length}');
 
     return [firebaseContacts, phoneContacts];
   }

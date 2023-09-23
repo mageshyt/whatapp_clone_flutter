@@ -39,9 +39,10 @@ class MyApp extends ConsumerWidget {
           data: (user) {
             // this will remove the splash screen
             FlutterNativeSplash.remove();
-            return user?.uid == null
-                ? const Welcome_screen()
-                : const HomeView();
+            // return user?.uid == null
+            //     ? const Welcome_screen()
+            //     : const HomeView();
+            return const HomeView();
             // return const Welcome_screen();
           },
           error: (err, trace) {
