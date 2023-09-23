@@ -35,7 +35,6 @@ class ContactView extends ConsumerWidget {
               itemBuilder: (context, idx) {
                 late UserModel firebaseContact;
                 late UserModel phoneContact;
-                debugPrint('idx $idx constacts ${contactList[0]}');
                 // debugPrint('idx $idx constacts ${contactList[0].length}');
                 if (idx < contactList[0].length) {
                   firebaseContact = contactList[0][idx];

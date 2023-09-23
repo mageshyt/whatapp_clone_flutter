@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
 import 'package:whatapp_clone/common/widgets/loader.dart';
+import 'package:whatapp_clone/features/auth/repository/auth_repository.dart';
 import 'package:whatapp_clone/features/contact/controllers/contact_controller.dart';
 import 'package:whatapp_clone/features/contact/widgets/contact_card.dart';
 import 'package:whatapp_clone/models/user_model.dart';
 import 'package:whatapp_clone/routers/router.dart';
-import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 
 class ChatHomeView extends ConsumerWidget {
   const ChatHomeView({Key? key}) : super(key: key);
@@ -32,7 +32,7 @@ class ChatHomeView extends ConsumerWidget {
               data: (contactList) => ListView.builder(
                 itemCount: contactList.length,
                 itemBuilder: (context, index) {
-                  return ContactCard( 
+                  return ContactCard(
                       onTap: () =>
                           navigateToChatPage(context, contactList[index]),
                       idx: index,

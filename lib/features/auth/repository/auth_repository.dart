@@ -31,11 +31,11 @@ class AuthRepository {
   });
 
   // ---- function to get user status----
-  Stream<UserModel?>  getUserPresenceStatus(String uid) {
+  Stream<UserModel?> getUserPresenceStatus(String uid) {
     return auth.authStateChanges().asyncMap((user) async {
       if (user == null) return null;
 
-      final userInfo = await firestore.collection('users').doc(user.uid).get();
+      final userInfo = await firestore.collection('users').doc(uid).get();
 
       if (userInfo.data() == null) return null;
 

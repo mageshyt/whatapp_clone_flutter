@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,9 +20,19 @@ class ContractRepository {
     List<UserModel> firebaseContacts = [];
     try {
       final userCollection = await firestore.collection('users').get();
-      final firebaseContactList = userCollection.docs
-          .map((doc) => UserModel.fromMap(doc.data()))
-          .toList();
+      final currentUser = FirebaseAuth.instance.currentUser;
+
+      final firebaseContactList = userCollection.docs.map((doc) {
+        if (currentUser!.uid != doc.data()['uid']) {
+          return UserModel.fromMap(doc.data());
+        } else {
+          // add (you) to the name
+          return UserModel.fromMap({
+            ...doc.data(),
+            'name': '${doc.data()['name']} (you)',
+          });
+        }
+      }).toList();
 
       firebaseContacts = firebaseContactList;
     } catch (e) {
@@ -45,7 +56,7 @@ class ContractRepository {
             .map((doc) => UserModel.fromMap(doc.data()))
             .toList();
 
-        debugPrint('firebaseContactList ${firebaseContactList[0].toMap()}');
+        // debugPrint('firebaseContactList ${firebaseContactList[0].toMap()}');
 
         // Fetch contacts from the phone
         final allContactsInThePhone = await FlutterContacts.getContacts(
