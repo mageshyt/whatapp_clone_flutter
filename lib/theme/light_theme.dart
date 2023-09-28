@@ -57,5 +57,12 @@ ThemeData lightTheme() {
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: ThemeColors.greenDark,
         foregroundColor: Colors.white,
+      ),
+      listTileTheme: const ListTileThemeData(
+          iconColor: ThemeColors.greyDark,
+          tileColor: ThemeColors.backgroundDark),
+      switchTheme: SwitchThemeData(
+        thumbColor: MaterialStateProperty.all(Color(0xFF83939c)),
+        trackColor: MaterialStateProperty.all(Color(0xFFDAFE2)),
       ));
 }

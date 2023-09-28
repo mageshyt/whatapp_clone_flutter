@@ -8,6 +8,7 @@ import 'package:whatapp_clone/features/chat/view/profile_view.dart';
 import 'package:whatapp_clone/features/contact/pages/contact_view.dart';
 import 'package:whatapp_clone/features/home/view/home_view.dart';
 import 'package:whatapp_clone/features/welcome/view/welcome_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Routes {
   static const String welcome = 'welcome';
@@ -53,10 +54,12 @@ class Routes {
       case profile:
         final Map args = settings.arguments as Map;
 
-        return MaterialPageRoute(
-            builder: (context) => ProfileView(
-                  user: args['user'],
-                ));
+        return PageTransition(
+            child: ProfileView( 
+              user: args['user'],
+            ),
+            type: PageTransitionType.fade,
+          duration: const Duration(milliseconds: 400));
       case profilePic:
         final Map args = settings.arguments as Map;
 

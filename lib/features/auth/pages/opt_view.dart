@@ -37,7 +37,7 @@ class OTPScreen extends ConsumerWidget {
                     recognizer: TapGestureRecognizer()
                       ..onTap = () => Navigator.of(context).pop(),
                     text: "\n Wrong number ?",
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: ThemeColors.greenDark,
                         fontWeight: FontWeight.bold),
                   ),

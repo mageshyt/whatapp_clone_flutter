@@ -5,6 +5,7 @@ import 'package:whatapp_clone/features/auth/repository/auth_repository.dart';
 import 'package:whatapp_clone/features/chat/widgets/lastSeenMessage.dart';
 import 'package:whatapp_clone/models/user_model.dart';
 import 'package:whatapp_clone/routers/router.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ChatAppBar extends ConsumerWidget implements PreferredSizeWidget {
   final UserModel user;
@@ -90,12 +91,14 @@ class ChatAppBar extends ConsumerWidget implements PreferredSizeWidget {
               Icons.arrow_back,
             ),
             Hero(
-              tag: user.uid as String,
+              tag: 'profile',
               child: Container(
                 width: 32,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  image: DecorationImage(image: NetworkImage(user.profilePic)),
+                  image: DecorationImage(
+                    image: CachedNetworkImageProvider(user.profilePic),
+                  ),
                 ),
               ),
             ),

@@ -29,6 +29,7 @@ class ChatUserInfoWidget extends StatelessWidget {
         const SizedBox(height: 5),
         // --- status----
         Text(
+          // TODO: add status from realtime DB
           'last seen ${lastSeenMessage(user.lastSeen)}',
           style: TextStyle(
               color: context.theme.greyColor,

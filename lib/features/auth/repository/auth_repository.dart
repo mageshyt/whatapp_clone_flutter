@@ -129,6 +129,9 @@ class AuthRepository {
           verificationId: verificationId, smsCode: OTP);
       await auth.signInWithCredential(credential);
 
+      // dismiss the loading dialog
+
+
       Navigator.of(context)
           .pushNamedAndRemoveUntil(Routes.userInformation, (route) => false);
     } on FirebaseAuthException catch (e) {

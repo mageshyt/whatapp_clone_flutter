@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:whatapp_clone/common/common.dart';
 import 'package:whatapp_clone/constants/colors.dart';
-import 'package:whatapp_clone/features/chat/widgets/IconWithText.dart';
-import 'package:whatapp_clone/features/chat/widgets/lastSeenMessage.dart';
 import 'package:whatapp_clone/features/chat/widgets/custom_list_title_chat.dart';
 import 'package:whatapp_clone/models/user_model.dart';
 import 'package:whatapp_clone/routers/router.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import '../widgets/chat_user_info.widget.dart';
 
 class ProfileView extends StatelessWidget {
@@ -18,6 +16,7 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.theme.profilePageBg,
       body: CustomScrollView(
         slivers: [
           SliverPersistentHeader(
@@ -36,6 +35,7 @@ class ProfileView extends StatelessWidget {
                   ],
                 ),
               ),
+              const SizedBox(height: 20),
               // ---- Bio----
               ListTile(
                 contentPadding: const EdgeInsets.only(left: 30),
@@ -50,10 +50,7 @@ class ProfileView extends StatelessWidget {
                 ),
               ),
 
-              const Divider(
-                height: 0,
-                thickness: 0.5,
-              ),
+              const SizedBox(height: 20),
               // -------- Mute notification----
               ChatCustomListTitle(
                 title: 'Mute notification',
@@ -82,6 +79,7 @@ class ProfileView extends StatelessWidget {
                 ),
               ),
 
+              const SizedBox(height: 20),
               // ---- Encryption----
               const ChatCustomListTitle(
                 title: 'Encryption',
@@ -106,13 +104,8 @@ class ProfileView extends StatelessWidget {
                 ),
                 title: Text('Create group with ${user.name}'),
               ),
-              const SizedBox(height: 10),
-              // divider
-              const Divider(
-                height: 0,
-                thickness: 0.5,
-              ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
+
               ListTile(
                 contentPadding: const EdgeInsets.only(left: 25, right: 10),
                 leading: const Icon(
@@ -216,9 +209,7 @@ class SilverPersistentDelegate extends SliverPersistentHeaderDelegate {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: NetworkImage(
-                          user.profilePic,
-                        ),
+                        image: CachedNetworkImageProvider(user.profilePic),
                       ),
                     ),
                   ),
