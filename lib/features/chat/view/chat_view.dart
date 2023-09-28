@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whatapp_clone/constants/constants.dart';
 
 import 'package:whatapp_clone/features/chat/widgets/chat_appbar.widget.dart';
 import 'package:whatapp_clone/models/user_model.dart';
 import 'package:whatapp_clone/routers/router.dart';
+import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 
 class ChatView extends ConsumerWidget {
   final UserModel user;
@@ -18,8 +20,27 @@ class ChatView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: ChatAppBar(user: user),
-      body: const Center(
-        child: Text('Chat Home View'),
+      body: Stack(
+        children: [
+          Image(
+            fit: BoxFit.cover,
+            height: double.maxFinite,
+            width: double.maxFinite,
+            color: context.theme.photoIconBgColor,
+            image: const AssetImage(AssetsConstant.doodle_bg),
+          ),
+
+          // ---- chat view----
+
+          Column(
+            children: [
+              Expanded(
+                  child: Container(
+                color: Colors.black ,
+              )),
+            ],
+          )
+        ],
       ),
     );
   }
