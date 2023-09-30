@@ -46,16 +46,19 @@ class ContactView extends ConsumerWidget {
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // create group and invite friends
                           // ---- Grouping the contact by first letter ----
-                          const CustomListTile(
-                            leading: Icons.group,
-                            text: 'New group',
-                          ),
-                          const CustomListTile(
-                            leading: Icons.contacts,
-                            text: 'New contact',
-                            trailing: Icons.qr_code,
-                          ),
+                          if (idx == 0)
+                            const CustomListTile(
+                              leading: Icons.group,
+                              text: 'New group',
+                            ),
+                          if (idx == 0)
+                            const CustomListTile(
+                              leading: Icons.contacts,
+                              text: 'New contact',
+                              trailing: Icons.qr_code,
+                            ),
                           if (idx == 0)
                             Padding(
                               padding: const EdgeInsets.symmetric(
@@ -68,6 +71,7 @@ class ContactView extends ConsumerWidget {
                                     fontWeight: FontWeight.w500),
                               ),
                             ),
+
                           ContactCard(
                             idx: idx,
                             contact: firebaseContact,

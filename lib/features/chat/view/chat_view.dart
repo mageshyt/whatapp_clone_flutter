@@ -6,6 +6,7 @@ import 'package:whatapp_clone/features/chat/widgets/chat_appbar.widget.dart';
 import 'package:whatapp_clone/models/user_model.dart';
 import 'package:whatapp_clone/routers/router.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
+import 'package:whatapp_clone/features/chat/widgets/chat_field.widget.dart';
 
 class ChatView extends ConsumerWidget {
   final UserModel user;
@@ -34,10 +35,12 @@ class ChatView extends ConsumerWidget {
 
           Column(
             children: [
+              // ---- chat list view----
               Expanded(
-                  child: Container(
-                color: Colors.black ,
-              )),
+                child: Container(),
+              ),
+              const SizedBox(height: 5),
+              ChatFieldWidget(receiverId: user.uid!)
             ],
           )
         ],
