@@ -18,18 +18,31 @@ class CustomThemeExtension extends ThemeExtension<CustomThemeExtension> {
   final Color? photoIconBgColor;
   final Color? profilePageBg;
   final Color? inputFillColor;
+  final Color? chatPageBgColor;
+  final Color? chatPageDoodleColor;
+  final Color? senderChatCardBg;
+  final Color? receiverChatCardBg;
+  final Color? yellowCardBgColor;
+  final Color? yellowCardTextColor;
 
-  const CustomThemeExtension(
-      {this.circleImageColor,
-      this.greyColor,
-      this.blueColor,
-      this.langBgColor,
-      this.langHightlightColor,
-      this.authAppbarTextColor,
-      this.photoIconColor,
-      this.photoIconBgColor,
-      this.profilePageBg,
-      this.inputFillColor});
+  const CustomThemeExtension({
+    this.circleImageColor,
+    this.greyColor,
+    this.blueColor,
+    this.langBgColor,
+    this.langHightlightColor,
+    this.authAppbarTextColor,
+    this.photoIconColor,
+    this.photoIconBgColor,
+    this.profilePageBg,
+    this.inputFillColor,
+    this.chatPageBgColor,
+    this.chatPageDoodleColor,
+    this.senderChatCardBg,
+    this.receiverChatCardBg,
+    this.yellowCardBgColor,
+    this.yellowCardTextColor,
+  });
 
   static const lightMode = CustomThemeExtension(
     circleImageColor: Color(0xFF25D366),
@@ -42,6 +55,12 @@ class CustomThemeExtension extends ThemeExtension<CustomThemeExtension> {
     photoIconColor: Color(0xFF9DAAB3),
     profilePageBg: Color(0xFFF7F8FA),
     inputFillColor: Colors.white,
+    chatPageBgColor: ThemeColors.greyBackground,
+    chatPageDoodleColor: Colors.white70,
+    senderChatCardBg: Color(0xFFDCF8C6),
+    receiverChatCardBg: Color(0xFFECE5DD),
+    yellowCardBgColor: Color(0xFFFFEECC),
+    yellowCardTextColor: Color(0xFF13191C),
   );
 
   static const darkMode = CustomThemeExtension(
@@ -55,6 +74,12 @@ class CustomThemeExtension extends ThemeExtension<CustomThemeExtension> {
     photoIconColor: Color(0xFF61717B),
     profilePageBg: Color(0xFF0B141A),
     inputFillColor: ThemeColors.greyBackground,
+    chatPageBgColor: Color(0xFF081419),
+    chatPageDoodleColor: Color(0xFF172428),
+    senderChatCardBg: Color(0xFF005C4B),
+    receiverChatCardBg: ThemeColors.greyBackground,
+    yellowCardBgColor: Color(0xFF222E35),
+    yellowCardTextColor: Color(0xFFFFD279),
   );
   @override
   ThemeExtension<CustomThemeExtension> copyWith({
@@ -65,6 +90,15 @@ class CustomThemeExtension extends ThemeExtension<CustomThemeExtension> {
     Color? langHightlightColor,
     Color? authAppbarTextColor,
     Color? photoIconColor,
+    Color? photoIconBgColor,
+    Color? profilePageBg,
+    Color? inputFillColor,
+    Color? chatPageBgColor,
+    Color? chatPageDoodleColor,
+    Color? senderChatCardBg,
+    Color? receiverChatCardBg,
+    Color? yellowCardBgColor,
+    Color? yellowCardTextColor,
   }) {
     return CustomThemeExtension(
       circleImageColor: circleImageColor ?? this.circleImageColor,
@@ -77,6 +111,11 @@ class CustomThemeExtension extends ThemeExtension<CustomThemeExtension> {
       photoIconColor: photoIconColor ?? this.photoIconColor,
       profilePageBg: profilePageBg ?? this.profilePageBg,
       inputFillColor: inputFillColor ?? this.inputFillColor,
+      chatPageBgColor: chatPageBgColor ?? this.chatPageBgColor,
+      chatPageDoodleColor: chatPageDoodleColor ?? this.chatPageDoodleColor,
+      senderChatCardBg: senderChatCardBg ?? this.senderChatCardBg,
+      receiverChatCardBg: receiverChatCardBg ?? this.receiverChatCardBg,
+      yellowCardBgColor: yellowCardBgColor ?? this.yellowCardBgColor,
     );
   }
 
@@ -100,6 +139,16 @@ class CustomThemeExtension extends ThemeExtension<CustomThemeExtension> {
       photoIconColor: Color.lerp(photoIconColor, other.photoIconColor, t),
       profilePageBg: Color.lerp(profilePageBg, other.profilePageBg, t),
       inputFillColor: Color.lerp(inputFillColor, other.inputFillColor, t),
+      chatPageBgColor: Color.lerp(chatPageBgColor, other.chatPageBgColor, t),
+      chatPageDoodleColor:
+          Color.lerp(chatPageDoodleColor, other.chatPageDoodleColor, t),
+      senderChatCardBg: Color.lerp(senderChatCardBg, other.senderChatCardBg, t),
+      receiverChatCardBg:
+          Color.lerp(receiverChatCardBg, other.receiverChatCardBg, t),
+      yellowCardBgColor:
+          Color.lerp(yellowCardBgColor, other.yellowCardBgColor, t),
+      yellowCardTextColor:
+          Color.lerp(yellowCardTextColor, other.yellowCardTextColor, t),
     );
   }
 }

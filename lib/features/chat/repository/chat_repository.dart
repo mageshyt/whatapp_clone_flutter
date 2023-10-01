@@ -10,6 +10,7 @@ import 'package:whatapp_clone/models/user_model.dart';
 import 'package:uuid/uuid.dart';
 // !----- provider -----
 
+// ignore: non_constant_identifier_names
 final ChatRepositoryProvider = Provider((ref) => ChatRepository(
       firestore: FirebaseFirestore.instance,
       auth: FirebaseAuth.instance,
@@ -21,7 +22,30 @@ class ChatRepository {
 
   ChatRepository({required this.firestore, required this.auth});
 
-  // ----- method to get last message  [used in chat's screen]------
+  //! ----- method to get all message that used chat with others  ------
+
+  Stream<List<MessageModel>> getAllMessageList({required String contactId}) {
+    return firestore
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .collection('chats')
+        .doc(contactId) // * receiver id
+        .collection('messages')
+        .orderBy('timeSent')
+        .snapshots()
+        .asyncMap((event) async {
+      final List<MessageModel> messages = [];
+
+      for (var document in event.docs) {
+        final message = MessageModel.fromMap(document.data());
+        messages.add(message);
+      }
+
+      return messages;
+    });
+  }
+
+  //! ----- method to get last message  [used in chat's screen]------
 
   Stream<List<LastMessageModel>> getAllLastMessageList() {
     return firestore
@@ -61,7 +85,7 @@ class ChatRepository {
     });
   }
 
-  // ------ method to send message ------
+  //! ------ method to send message ------
 
   void sendTextMessage(
       {required BuildContext context,
@@ -107,7 +131,7 @@ class ChatRepository {
     }
   }
 
-  // ------ save message to firestore ------
+  //! ------ save message to firestore ------
 
   void saveToMessageCollection({
     required String receiverId,
@@ -136,7 +160,7 @@ class ChatRepository {
         .set(Message.toMap());
   }
 
-  // ------ method to save last message ------
+  // !------ method to save last message ------
 
   void saveLastMessage({
     required UserModel senderUserData,

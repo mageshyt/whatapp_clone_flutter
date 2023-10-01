@@ -3,13 +3,12 @@ import 'package:riverpod/riverpod.dart';
 import 'package:whatapp_clone/features/auth/controllers/auth_controller.dart';
 import 'package:whatapp_clone/features/chat/repository/chat_repository.dart';
 import 'package:whatapp_clone/models/late_message_model.dart';
+import 'package:whatapp_clone/models/message_model.dart';
 
 final chatControllerProvider = Provider((ref) {
   final chatRepo = ref.watch(ChatRepositoryProvider);
   return ChatController(chatRepo: chatRepo, ref: ref);
 });
-
- 
 
 class ChatController {
   final ChatRepository chatRepo;
@@ -21,6 +20,12 @@ class ChatController {
 // ! ----------------- get users messaged contact -----------------
   Stream<List<LastMessageModel>> getAllLastMessageList() {
     return chatRepo.getAllLastMessageList();
+  }
+
+// ! ----------------- get all message of contact -----------------
+
+  Stream<List<MessageModel>> getAllMessageList({required String contactId}) {
+    return chatRepo.getAllMessageList(contactId: contactId);
   }
 
   void sendTextMessage({

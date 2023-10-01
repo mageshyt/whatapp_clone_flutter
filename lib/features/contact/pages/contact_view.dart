@@ -22,6 +22,7 @@ class ContactView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      backgroundColor: context.theme.chatPageBgColor,
       appBar: const ReuseableAppbar(
         title: 'Select contact',
         isCenterTitle: false,

@@ -85,6 +85,7 @@ dev_dependencies:
   cached_network_image: ^3.3.0
   page_transition: ^2.1.0
   intl: ^0.18.1
+  custom_clippers: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

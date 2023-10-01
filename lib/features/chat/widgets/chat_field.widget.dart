@@ -19,12 +19,13 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
   // ! ----------------- message controller -----------------
 
   void sendMessage() async {
-    if (isMessageIconEnabled) {
+    if (isMessageIconEnabled && messageController.text.isNotEmpty) {
       ref.read(chatControllerProvider).sendTextMessage(
           context: context,
           receiverId: widget.receiverId,
           textMessage: messageController.text);
       messageController.clear();
+      setState(() => isMessageIconEnabled = false);
     }
   }
 
@@ -78,6 +79,7 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
                     child: CustomIconButton(
                       icon: Icons.emoji_emotions_outlined,
                       onPressed: () {},
+                      iconsColor: Theme.of(context).listTileTheme.iconColor,
                     ),
                   ),
                   suffixIcon: Row(
@@ -88,11 +90,13 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
                         child: CustomIconButton(
                           icon: Icons.attach_file,
                           onPressed: () {},
+                          iconsColor: Theme.of(context).listTileTheme.iconColor,
                         ),
                       ),
                       CustomIconButton(
                         icon: Icons.camera_alt_outlined,
                         onPressed: () {},
+                        iconsColor: Theme.of(context).listTileTheme.iconColor,
                       ),
                     ],
                   )),

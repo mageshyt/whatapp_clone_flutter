@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatapp_clone/constants/colors.dart';
 import 'package:whatapp_clone/features/chat/controller/chat_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:whatapp_clone/features/home/widgets/chat_contact.dart';
 
 import 'package:whatapp_clone/models/late_message_model.dart';
 import 'package:whatapp_clone/models/user_model.dart';
@@ -51,52 +52,7 @@ class ChatHomeView extends ConsumerWidget {
                 itemCount: lastMessageList.length,
                 itemBuilder: (context, index) {
                   debugPrint('>> ${lastMessageList[0].toString()}');
-                  return ListTile(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        Routes.chat,
-                        arguments: UserModel(
-                          name: lastMessageList[index].name,
-                          uid: lastMessageList[index].contactId,
-                          profilePic: lastMessageList[index].profilePic,
-                          isOnline: true,
-                          lastSeen: 0,
-                          phoneNumber: '0',
-                          groupId: [],
-                        ),
-                      );
-                    },
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(lastMessageList[index].name),
-                        Text(
-                          DateFormat.Hm()
-                              .format(lastMessageList[index].timeSent),
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: context.theme.greyColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.only(top: 3),
-                      child: Text(
-                        lastMessageList[index].lastMessage,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: context.theme.greyColor),
-                      ),
-                    ),
-                    leading: CircleAvatar(
-                      backgroundImage: CachedNetworkImageProvider(
-                        lastMessageList[index].profilePic,
-                      ),
-                      radius: 24,
-                    ),
-                  );
+                  return ChatContact(lastMessage: lastMessageList[index]);
                 },
               );
             }),
