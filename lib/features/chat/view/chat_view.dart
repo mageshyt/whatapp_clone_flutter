@@ -14,6 +14,8 @@ import 'package:whatapp_clone/routers/router.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 import 'package:whatapp_clone/features/chat/widgets/chat_field.widget.dart';
 
+final pageStorageBucket = PageStorageBucket();
+
 class ChatView extends ConsumerWidget {
   final UserModel user;
   ChatView({Key? key, required this.user}) : super(key: key);
@@ -79,39 +81,43 @@ class ChatView extends ConsumerWidget {
                         child: CircularProgressIndicator(),
                       );
                     }
-                    return ListView.builder(
-                      controller: scrollController,
-                      itemCount: snapshot.data?.length,
-                      itemBuilder: (context, index) {
-                        final message = snapshot.data?[index];
-                        final isMe = FirebaseAuth.instance.currentUser!.uid ==
-                            message?.senderId;
-                        // Case for showing the nip
-                        // [1] if it's the first message
-                        // [2] if it's the last message
-                        // [3] if the previous message is from another sender
+                    return PageStorage(
+                      bucket: pageStorageBucket,
+                      child: ListView.builder(
+                        key: PageStorageKey('chat-list-view'), 
+                        controller: scrollController,
+                        itemCount: snapshot.data?.length,
+                        itemBuilder: (context, index) {
+                          final message = snapshot.data?[index];
+                          final isMe = FirebaseAuth.instance.currentUser!.uid ==
+                              message?.senderId;
+                          // Case for showing the nip
+                          // [1] if it's the first message
+                          // [2] if it's the last message
+                          // [3] if the previous message is from another sender
 
-                        final haveNip = shouldShowNip(index, snapshot.data);
+                          final haveNip = shouldShowNip(index, snapshot.data);
 
-                        return Column(
-                          children: [
-                            // ------- chat header message -------
-                            if (index == 0) YellowCard(),
-                            // ------- chat date message -------
-                            if (index == 0 ||
-                                message?.timeSent.day !=
-                                    snapshot.data?[index - 1].timeSent.day)
-                              ShowDateCard(
-                                  date: message?.timeSent ?? DateTime.now()),
+                          return Column(
+                            children: [
+                              // ------- chat header message -------
+                              if (index == 0) YellowCard(),
+                              // ------- chat date message -------
+                              if (index == 0 ||
+                                  message?.timeSent.day !=
+                                      snapshot.data?[index - 1].timeSent.day)
+                                ShowDateCard(
+                                    date: message?.timeSent ?? DateTime.now()),
 
-                            MessageTile(
-                              message: message,
-                              isMe: isMe,
-                              haveNip: haveNip,
-                            ),
-                          ],
-                        );
-                      },
+                              MessageTile(
+                                message: message,
+                                isMe: isMe,
+                                haveNip: haveNip,
+                              ),
+                            ],
+                          );
+                        },
+                      ),
                     );
                   },
                 ),

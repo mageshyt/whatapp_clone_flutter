@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
 import 'package:whatapp_clone/features/auth/controllers/auth_controller.dart';
 import 'package:whatapp_clone/features/chat/widgets/IconWithText.dart';
 import 'package:whatapp_clone/features/chat/widgets/lastSeenMessage.dart';
@@ -34,7 +35,7 @@ class ChatUserInfoWidget extends ConsumerWidget {
                 // --- status----
                 Text(
                   // TODO: add status from realtime DB
-                  'last seen ${lastSeenMessage(user.lastSeen)}',
+                  'last seen ${lastSeenMessage(userInfo.lastSeen)}',
                   style: TextStyle(
                       color: context.theme.greyColor,
                       fontSize: 14,
@@ -64,7 +65,7 @@ class ChatUserInfoWidget extends ConsumerWidget {
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, stack) => const Center(child: Text('Error')),
+          error: (error, stack) => showAlertDialog(context: context, content: 'Error: ${error.toString()}'),
         );
   }
 }
