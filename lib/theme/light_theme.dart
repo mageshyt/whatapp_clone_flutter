@@ -60,7 +60,7 @@ ThemeData lightTheme() {
       ),
       listTileTheme: const ListTileThemeData(
           iconColor: ThemeColors.greyDark,
-          tileColor: ThemeColors.backgroundDark),
+          tileColor: ThemeColors.backgroundLight),
       switchTheme: SwitchThemeData(
         thumbColor: MaterialStateProperty.all(Color(0xFF83939c)),
         trackColor: MaterialStateProperty.all(Color(0xFFDAFE2)),

@@ -141,15 +141,17 @@ class ChatRepository {
     required String receiverUsername,
     required MessageType messageType,
   }) async {
-    final Message = MessageModel(
-        senderId: auth.currentUser!.uid,
-        receiverId: receiverId,
-        textMessage: textMessage,
-        type: messageType,
-        timeSent: sendedAt,
-        messageId: textMessageId,
-        isSeen: false);
+    final message = MessageModel(
+      senderId: auth.currentUser!.uid,
+      receiverId: receiverId,
+      textMessage: textMessage,
+      type: messageType,
+      timeSent: sendedAt,
+      messageId: textMessageId,
+      isSeen: false,
+    );
 
+    // sender
     await firestore
         .collection('users')
         .doc(auth.currentUser!.uid)
@@ -157,7 +159,17 @@ class ChatRepository {
         .doc(receiverId)
         .collection('messages')
         .doc(textMessageId)
-        .set(Message.toMap());
+        .set(message.toMap());
+
+    // receiver
+    await firestore
+        .collection('users')
+        .doc(receiverId)
+        .collection('chats')
+        .doc(auth.currentUser!.uid)
+        .collection('messages')
+        .doc(textMessageId)
+        .set(message.toMap());
   }
 
   // !------ method to save last message ------
