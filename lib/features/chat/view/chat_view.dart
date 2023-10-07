@@ -5,6 +5,7 @@ import 'package:whatapp_clone/constants/constants.dart';
 import 'package:whatapp_clone/features/chat/controller/chat_controller.dart';
 
 import 'package:whatapp_clone/features/chat/widgets/chat_appbar.widget.dart';
+import 'package:whatapp_clone/features/chat/widgets/chat_loading.dart';
 import 'package:whatapp_clone/features/chat/widgets/message_tile.dart';
 import 'package:whatapp_clone/features/chat/widgets/show_date_card.dart';
 import 'package:whatapp_clone/features/chat/widgets/yellow_card.dart';
@@ -77,14 +78,15 @@ class ChatView extends ConsumerWidget {
                   builder: (context, snapshot) {
                     //  ! if loading
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
+                      // loading animation
+
+                      return ChatLoading();
                     }
+
                     return PageStorage(
                       bucket: pageStorageBucket,
                       child: ListView.builder(
-                        key: PageStorageKey('chat-list-view'), 
+                        key: const PageStorageKey('chat-list-view'),
                         controller: scrollController,
                         itemCount: snapshot.data?.length,
                         itemBuilder: (context, index) {
