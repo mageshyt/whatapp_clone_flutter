@@ -16,7 +16,7 @@ import 'package:whatapp_clone/features/chat/widgets/chat_field.widget.dart';
 
 class ChatView extends ConsumerWidget {
   final UserModel user;
-  const ChatView({Key? key, required this.user}) : super(key: key);
+  ChatView({Key? key, required this.user}) : super(key: key);
 
   // ---- method to navigate to contact view---
   navigateToContactPage(context) {
@@ -42,6 +42,9 @@ class ChatView extends ConsumerWidget {
         (nextMessageSenderId != currentMessageSenderId);
   }
 
+// ----scroll controller----
+
+  final ScrollController scrollController = ScrollController();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -77,6 +80,7 @@ class ChatView extends ConsumerWidget {
                       );
                     }
                     return ListView.builder(
+                      controller: scrollController,
                       itemCount: snapshot.data?.length,
                       itemBuilder: (context, index) {
                         final message = snapshot.data?[index];
@@ -113,7 +117,13 @@ class ChatView extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 5),
-              ChatFieldWidget(receiverId: user.uid!)
+              Container(
+                alignment: const Alignment(0, 1),
+                child: ChatFieldWidget(
+                  receiverId: user.uid!,
+                  scrollController: scrollController,
+                ),
+              )
             ],
           )
         ],

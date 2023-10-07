@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatapp_clone/common/common.dart';
 import 'package:whatapp_clone/constants/colors.dart';
 import 'package:whatapp_clone/features/chat/controller/chat_controller.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
+import 'package:flutter/scheduler.dart';
 
 class ChatFieldWidget extends ConsumerStatefulWidget {
-  const ChatFieldWidget({Key? key, required this.receiverId}) : super(key: key);
+  const ChatFieldWidget(
+      {Key? key, required this.receiverId, required this.scrollController})
+      : super(key: key);
   final String receiverId;
+  final ScrollController scrollController;
 
   @override
   _ChatFieldWidgetState createState() => _ChatFieldWidgetState();
@@ -26,6 +31,19 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
           textMessage: messageController.text);
       messageController.clear();
       setState(() => isMessageIconEnabled = false);
+    }
+    await Future.delayed(const Duration(milliseconds: 100));
+
+    if (widget.scrollController.hasClients) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        widget.scrollController.animateTo(
+          widget.scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      });
+    } else {
+      debugPrint('>> scroll controller has no client');
     }
   }
 

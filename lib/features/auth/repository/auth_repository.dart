@@ -30,6 +30,20 @@ class AuthRepository {
     required this.realtime,
   });
 
+  // ---- function to get user data from firebase ----
+  Future<UserModel?> getUserDetails(String uid) async {
+    try {
+      final userInfo = await firestore.collection('users').doc(uid).get();
+
+      if (userInfo.data() == null) return null;
+
+      return UserModel.fromMap(userInfo.data()!);
+    } catch (e) {
+      debugPrint('error $e');
+    }
+    return null;
+  }
+
   // ---- function to get user status----
   Stream<UserModel?> getUserPresenceStatus(String uid) {
     return auth.authStateChanges().asyncMap((user) async {
@@ -130,7 +144,6 @@ class AuthRepository {
       await auth.signInWithCredential(credential);
 
       // dismiss the loading dialog
-
 
       Navigator.of(context)
           .pushNamedAndRemoveUntil(Routes.userInformation, (route) => false);

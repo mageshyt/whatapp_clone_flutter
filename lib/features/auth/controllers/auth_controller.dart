@@ -13,19 +13,34 @@ final userAuthProvider = FutureProvider((ref) {
   return authController.getUserData();
 });
 
+final userDetailsProvider =
+    FutureProvider.family<UserModel?, String>((ref, uid) async {
+  final authController = ref.watch(authControllerProvider);
+
+  // Assuming you have a method to fetch user details using the uid
+  UserModel? user = await authController.getUserDetails(uid);
+
+  return user;
+});
+
 class AuthController {
   final AuthRepository authRepository;
   final ProviderRef ref;
 
   AuthController({required this.authRepository, required this.ref});
 
+  Future<UserModel?> getUserDetails(String uid) async {
+    return authRepository.getUserDetails(uid);
+  }
+
   void updateUserPresence() {
     return authRepository.updateUserPresence();
   }
 
-Stream<UserModel?> getUserPresenceStatus(String uid) {
+  Stream<UserModel?> getUserPresenceStatus(String uid) {
     return authRepository.getUserPresenceStatus(uid);
   }
+
   Future<UserModel?> getUserData() async {
     UserModel? user = await authRepository.getCurrentUserInfo();
 

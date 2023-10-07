@@ -19,7 +19,6 @@ class ChatContact extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-
       onTap: () => navigateToChatPage(
         context,
         UserModel(

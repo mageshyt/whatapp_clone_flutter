@@ -3,14 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:whatapp_clone/constants/colors.dart';
 import 'package:whatapp_clone/features/chat/controller/chat_controller.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:whatapp_clone/features/home/widgets/chat_contact.dart';
 
 import 'package:whatapp_clone/models/late_message_model.dart';
 import 'package:whatapp_clone/models/user_model.dart';
 import 'package:whatapp_clone/routers/router.dart';
-import 'package:intl/intl.dart';
-import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 
 class ChatHomeView extends ConsumerWidget {
   const ChatHomeView({Key? key}) : super(key: key);
@@ -51,7 +48,6 @@ class ChatHomeView extends ConsumerWidget {
               return ListView.builder(
                 itemCount: lastMessageList.length,
                 itemBuilder: (context, index) {
-                  debugPrint('>> ${lastMessageList[0].toString()}');
                   return ChatContact(lastMessage: lastMessageList[index]);
                 },
               );
