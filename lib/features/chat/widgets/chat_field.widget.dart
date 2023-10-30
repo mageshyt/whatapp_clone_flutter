@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatapp_clone/common/common.dart';
+import 'package:whatapp_clone/common/enum/message_typing.dart';
 import 'package:whatapp_clone/constants/colors.dart';
+import 'package:whatapp_clone/features/auth/pages/image_picker_view.dart';
 import 'package:whatapp_clone/features/chat/controller/chat_controller.dart';
-import 'package:whatapp_clone/features/chat/widgets/IconWithText.dart';
+
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -35,7 +37,7 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
       messageController.clear();
       setState(() => isMessageIconEnabled = false);
     }
-    await Future.delayed(const Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: 500));
 
     if (widget.scrollController.hasClients) {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
@@ -88,6 +90,45 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
     );
   }
 
+  // ! ----------------- send image from gallery-----------------
+  void sendImageFromGallery() async {
+    final image = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const ImagePickerView(),
+        ));
+
+    if (image != null) {
+      sendFileMessage(image, MessageType.image);
+      setCardHeight();
+    }
+  }
+
+  void sendFileMessage(var file, MessageType messageType) async {
+    ref.read(chatControllerProvider).sendFileMessage(
+          context,
+          file,
+          widget.receiverId,
+          messageType,
+        );
+
+    // scroll to bottom
+
+    await Future.delayed(const Duration(milliseconds: 100));
+
+    if (widget.scrollController.hasClients) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        widget.scrollController.animateTo(
+          widget.scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      });
+    } else {
+      debugPrint('>> scroll controller has no client');
+    }
+  }
+
   @override
   void initState() {
     messageController = TextEditingController();
@@ -137,7 +178,7 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
                       background: const Color(0xFFFE2E74),
                     ),
                     iconWithText(
-                      onPressed: () {},
+                      onPressed: sendImageFromGallery,
                       icon: Icons.photo,
                       text: 'Gallery',
                       background: const Color(0xFFC861F9),
@@ -176,7 +217,7 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
         // ! ----------------- chat field -----------------
         Padding(
           padding:
-              const EdgeInsets.only(left: 5, right: 5, bottom: 20, top: 10),
+              const EdgeInsets.only(left: 5, right: 5, bottom: 10, top: 10),
           child: Row(
             children: [
               const SizedBox(width: 8),

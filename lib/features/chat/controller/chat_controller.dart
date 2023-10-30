@@ -5,7 +5,6 @@ import 'package:whatapp_clone/features/auth/controllers/auth_controller.dart';
 import 'package:whatapp_clone/features/chat/repository/chat_repository.dart';
 import 'package:whatapp_clone/models/late_message_model.dart';
 import 'package:whatapp_clone/models/message_model.dart';
-import 'package:whatapp_clone/models/user_model.dart';
 
 final chatControllerProvider = Provider((ref) {
   final chatRepo = ref.watch(ChatRepositoryProvider);
@@ -31,22 +30,22 @@ class ChatController {
   }
 
 // ! ----------------- send file -----------------
-  void sendFileMessage({
-    required var file,
-    required BuildContext context,
-    required String receiverId,
-    required UserModel senderData,
-    required Ref ref,
-    required MessageType messageType,
-  }) {
-    chatRepo.sendFileMessage(
-      file: file,
-      context: context,
-      receiverId: receiverId,
-      senderData: senderData,
-      ref: ref,
-      messageType: messageType,
-    );
+  void sendFileMessage(
+    BuildContext context,
+    var file,
+    String receiverId,
+    MessageType messageType,
+  ) {
+    ref.read(userAuthProvider).whenData((senderData) {
+      return chatRepo.sendFileMessage(
+        file: file,
+        context: context,
+        receiverId: receiverId,
+        senderData: senderData!,
+        ref: ref,
+        messageType: messageType,
+      );
+    });
   }
 
   void sendTextMessage({

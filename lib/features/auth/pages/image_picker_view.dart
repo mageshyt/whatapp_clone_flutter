@@ -18,7 +18,7 @@ class _ImagePickerViewState extends State<ImagePickerView> {
   int? last_page;
   // handle pagination
   handleEventScroll(ScrollNotification scroll) {
-    debugPrint('scroll metrics: ${scroll.metrics}');
+    // debugPrint('scroll metrics: ${scroll.metrics}');
     if (scroll.metrics.pixels == scroll.metrics.maxScrollExtent) {
       if (current_page != last_page) {
         current_page++;
@@ -38,7 +38,7 @@ class _ImagePickerViewState extends State<ImagePickerView> {
 
     // if permission not granted
     if (!permission.isAuth) {
-      print('permission not granted');
+      // print('permission not granted');
       return PhotoManager.openSetting();
     }
 
@@ -64,7 +64,7 @@ class _ImagePickerViewState extends State<ImagePickerView> {
             if (snapshot.connectionState == ConnectionState.done &&
                 snapshot.hasData) {
               return InkWell(
-               onTap: () => Navigator.pop(context, snapshot.data),
+                onTap: () => Navigator.pop(context, snapshot.data),
                 borderRadius: BorderRadius.circular(5),
                 child: Padding(
                   padding: const EdgeInsets.all(2.0),

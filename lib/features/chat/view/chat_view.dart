@@ -109,10 +109,10 @@ class ChatView extends ConsumerWidget {
                                   snapshot.data?[index - 1].timeSent.day)
                             ShowDateCard(
                                 date: message?.timeSent ?? DateTime.now()),
-
+                          // ------- chat message -------
                           MessageTile(
-                            message: message,
-                            isMe: isMe,
+                            message: message as MessageModel,
+                            isSender: isMe,
                             haveNip: haveNip,
                           ),
                         ],

@@ -33,12 +33,14 @@ class ChatRepository {
     required MessageType messageType,
   }) async {
     try {
+      debugPrint("sending file");
       final timeSent = DateTime.now();
       final messageId = const Uuid().v1();
       String imageRef =
           'chats/${messageType.type}/${senderData.uid}/$receiverId/$messageId';
-      final imageUrl =
-          ref.read(firebaseStorageProvider).storeFileToFirebase(imageRef, file);
+      final imageUrl = await ref
+          .read(firebaseStorageProvider)
+          .storeFileToFirebase(imageRef, file);
 
       // ! get the receiver data
       final userMap = await firestore.collection('users').doc(receiverId).get();
@@ -65,9 +67,14 @@ class ChatRepository {
           break;
       }
 
+      // debugPrint(
+      //     'receiver data ${receiverData.name} and $lastMessage and $receiverId and $timeSent');
+
+      // debugPrint("image url $imageUrl");
+
       saveToMessageCollection(
         receiverId: receiverId,
-        textMessage: imageUrl,
+        textMessage: imageUrl as String,
         sendedAt: timeSent,
         textMessageId: messageId,
         receiverUsername: receiverData.name,
@@ -85,6 +92,7 @@ class ChatRepository {
 
       print('Message saved');
     } catch (e) {
+      debugPrint(e.toString());
       showAlertDialog(context: context, content: e.toString());
     }
   }
@@ -123,8 +131,6 @@ class ChatRepository {
         .asyncMap((event) async {
       final List<LastMessageModel> contact = [];
 
-      debugPrint('current User >> ${auth.currentUser!.uid}');
-
       for (var document in event.docs) {
         // get the last message
         final lastMessage = LastMessageModel.fromMap(document.data());
@@ -144,8 +150,6 @@ class ChatRepository {
           timeSent: lastMessage.timeSent,
           lastMessage: lastMessage.lastMessage,
         ));
-
-        debugPrint('last message ${document.data()}');
       }
 
       return contact;
@@ -170,7 +174,7 @@ class ChatRepository {
 
       final receiverData = UserModel.fromMap(receiverDataMap.data()!);
 
-      debugPrint('receiver data ${receiverData.name}');
+      // debugPrint('receiver data ${receiverData.name}');
       // generate message id
       final textMessageId = const Uuid().v1();
 
