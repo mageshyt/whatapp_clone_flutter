@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatapp_clone/common/enum/message_typing.dart';
 import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
+import 'package:whatapp_clone/common/repositories/common_firebase_storge_repo.dart';
 import 'package:whatapp_clone/models/late_message_model.dart';
 import 'package:whatapp_clone/models/message_model.dart';
 import 'package:whatapp_clone/models/user_model.dart';
@@ -21,6 +22,72 @@ class ChatRepository {
   final FirebaseAuth auth;
 
   ChatRepository({required this.firestore, required this.auth});
+  //! ----- method to send files------------
+
+  void sendFileMessage({
+    required var file,
+    required BuildContext context,
+    required String receiverId,
+    required UserModel senderData,
+    required Ref ref,
+    required MessageType messageType,
+  }) async {
+    try {
+      final timeSent = DateTime.now();
+      final messageId = const Uuid().v1();
+      String imageRef =
+          'chats/${messageType.type}/${senderData.uid}/$receiverId/$messageId';
+      final imageUrl =
+          ref.read(firebaseStorageProvider).storeFileToFirebase(imageRef, file);
+
+      // ! get the receiver data
+      final userMap = await firestore.collection('users').doc(receiverId).get();
+
+      final receiverData = UserModel.fromMap(userMap.data()!);
+
+      String lastMessage;
+      // ! save to message collection
+      switch (messageType) {
+        case MessageType.image:
+          lastMessage = '📸 Photo message';
+          break;
+        case MessageType.audio:
+          lastMessage = '📸 Voice message';
+          break;
+        case MessageType.video:
+          lastMessage = '📸 Video message';
+          break;
+        case MessageType.gif:
+          lastMessage = '📸 GIF message';
+          break;
+        default:
+          lastMessage = '📦 GIF message';
+          break;
+      }
+
+      saveToMessageCollection(
+        receiverId: receiverId,
+        textMessage: imageUrl,
+        sendedAt: timeSent,
+        textMessageId: messageId,
+        receiverUsername: receiverData.name,
+        messageType: messageType,
+      );
+
+      // ! save last message
+
+      saveLastMessage(
+          senderUserData: senderData,
+          receiverUserData: receiverData,
+          textMessage: lastMessage,
+          receiverId: receiverId,
+          sendedAt: timeSent);
+
+      print('Message saved');
+    } catch (e) {
+      showAlertDialog(context: context, content: e.toString());
+    }
+  }
 
   //! ----- method to get all message that used chat with others  ------
 
