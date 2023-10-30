@@ -59,80 +59,77 @@ class ChatView extends ConsumerWidget {
             fit: BoxFit.cover,
             height: double.maxFinite,
             width: double.maxFinite,
-            color: context.theme.photoIconBgColor,
+            color: context.theme.chatPageDoodleColor,
             image: const AssetImage(AssetsConstant.doodle_bg),
           ),
 
           // ---- chat view----
 
-          Column(
-            children: [
-              const SizedBox(height: 5),
+          const SizedBox(height: 5),
 
-              // ---- chat list view----
-              Expanded(
-                child: StreamBuilder(
-                  stream: ref
-                      .watch(chatControllerProvider)
-                      .getAllMessageList(contactId: user.uid!),
-                  builder: (context, snapshot) {
-                    //  ! if loading
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      // loading animation
+          // ---- chat list view----
+          Padding(
+            padding: const EdgeInsets.only(bottom: 60.0),
+            child: StreamBuilder(
+              stream: ref
+                  .watch(chatControllerProvider)
+                  .getAllMessageList(contactId: user.uid!),
+              builder: (context, snapshot) {
+                //  ! if loading
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // loading animation
 
-                      return ChatLoading();
-                    }
+                  return ChatLoading();
+                }
 
-                    return PageStorage(
-                      bucket: pageStorageBucket,
-                      child: ListView.builder(
-                        key: const PageStorageKey('chat-list-view'),
-                        controller: scrollController,
-                        itemCount: snapshot.data?.length,
-                        itemBuilder: (context, index) {
-                          final message = snapshot.data?[index];
-                          final isMe = FirebaseAuth.instance.currentUser!.uid ==
-                              message?.senderId;
-                          // Case for showing the nip
-                          // [1] if it's the first message
-                          // [2] if it's the last message
-                          // [3] if the previous message is from another sender
+                return PageStorage(
+                  bucket: pageStorageBucket,
+                  child: ListView.builder(
+                    key: const PageStorageKey('chat-list-view'),
+                    controller: scrollController,
+                    itemCount: snapshot.data?.length,
+                    itemBuilder: (context, index) {
+                      final message = snapshot.data?[index];
+                      final isMe = FirebaseAuth.instance.currentUser!.uid ==
+                          message?.senderId;
+                      // Case for showing the nip
+                      // [1] if it's the first message
+                      // [2] if it's the last message
+                      // [3] if the previous message is from another sender
 
-                          final haveNip = shouldShowNip(index, snapshot.data);
+                      final haveNip = shouldShowNip(index, snapshot.data);
 
-                          return Column(
-                            children: [
-                              // ------- chat header message -------
-                              if (index == 0) YellowCard(),
-                              // ------- chat date message -------
-                              if (index == 0 ||
-                                  message?.timeSent.day !=
-                                      snapshot.data?[index - 1].timeSent.day)
-                                ShowDateCard(
-                                    date: message?.timeSent ?? DateTime.now()),
+                      return Column(
+                        children: [
+                          // ------- chat header message -------
+                          if (index == 0) YellowCard(),
+                          // ------- chat date message -------
+                          if (index == 0 ||
+                              message?.timeSent.day !=
+                                  snapshot.data?[index - 1].timeSent.day)
+                            ShowDateCard(
+                                date: message?.timeSent ?? DateTime.now()),
 
-                              MessageTile(
-                                message: message,
-                                isMe: isMe,
-                                haveNip: haveNip,
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: 5),
-              Container(
-                alignment: const Alignment(0, 1),
-                child: ChatFieldWidget(
-                  receiverId: user.uid!,
-                  scrollController: scrollController,
-                ),
-              )
-            ],
+                          MessageTile(
+                            message: message,
+                            isMe: isMe,
+                            haveNip: haveNip,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 5),
+          Container(
+            alignment: const Alignment(0, 1),
+            child: ChatFieldWidget(
+              receiverId: user.uid!,
+              scrollController: scrollController,
+            ),
           )
         ],
       ),

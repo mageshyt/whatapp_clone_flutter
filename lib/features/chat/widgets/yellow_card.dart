@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 
-
 class YellowCard extends StatelessWidget {
   const YellowCard({
     Key? key,

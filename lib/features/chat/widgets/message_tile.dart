@@ -63,11 +63,7 @@ class MessageTile extends ConsumerWidget {
                 ? context.theme.senderChatCardBg
                 : context.theme.receiverChatCardBg,
             boxShadow: const [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 5.0,
-                offset: Offset(0, 2),
-              ),
+              BoxShadow(color: Colors.black38),
             ],
             borderRadius: haveNip ? null : BorderRadius.circular(12),
           ),
@@ -76,7 +72,9 @@ class MessageTile extends ConsumerWidget {
               padding: const EdgeInsets.only(bottom: 5),
               child: Text(
                 "${message!.textMessage}        ",
-                style: const TextStyle(fontSize: 16, color: Colors.white),
+                style: TextStyle(
+                  fontSize: 16,
+                ),
               ),
             ),
             Positioned(

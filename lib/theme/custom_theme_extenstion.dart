@@ -24,6 +24,7 @@ class CustomThemeExtension extends ThemeExtension<CustomThemeExtension> {
   final Color? receiverChatCardBg;
   final Color? yellowCardBgColor;
   final Color? yellowCardTextColor;
+  final Color? textColor;
 
   const CustomThemeExtension({
     this.circleImageColor,
@@ -42,9 +43,11 @@ class CustomThemeExtension extends ThemeExtension<CustomThemeExtension> {
     this.receiverChatCardBg,
     this.yellowCardBgColor,
     this.yellowCardTextColor,
+    this.textColor,
   });
 
   static const lightMode = CustomThemeExtension(
+    textColor: Colors.black,
     circleImageColor: Color(0xFF25D366),
     greyColor: ThemeColors.greyLight,
     blueColor: ThemeColors.blueLight,
@@ -55,15 +58,16 @@ class CustomThemeExtension extends ThemeExtension<CustomThemeExtension> {
     photoIconColor: Color(0xFF9DAAB3),
     profilePageBg: Color(0xFFF7F8FA),
     inputFillColor: Colors.white,
-    chatPageBgColor: ThemeColors.greyBackground,
-    chatPageDoodleColor: Colors.white70,
+    chatPageBgColor: Color(0xFFEFE7DE),
+    chatPageDoodleColor: Color(0xFFE5D8C9),
     senderChatCardBg: Color(0xFFDCF8C6),
-    receiverChatCardBg: Color(0xFFECE5DD),
+    receiverChatCardBg: Color(0xFFFFFFFF),
     yellowCardBgColor: Color(0xFFFFEECC),
     yellowCardTextColor: Color(0xFF13191C),
   );
 
   static const darkMode = CustomThemeExtension(
+    textColor: Colors.white,
     circleImageColor: ThemeColors.greenDark,
     greyColor: ThemeColors.greyDark,
     blueColor: ThemeColors.blueDark,
@@ -75,7 +79,7 @@ class CustomThemeExtension extends ThemeExtension<CustomThemeExtension> {
     profilePageBg: Color(0xFF0B141A),
     inputFillColor: ThemeColors.greyBackground,
     chatPageBgColor: Color(0xFF081419),
-    chatPageDoodleColor: Color(0xFF172428),
+    chatPageDoodleColor: Color.fromARGB(255, 31, 51, 57),
     senderChatCardBg: Color(0xFF005C4B),
     receiverChatCardBg: ThemeColors.greyBackground,
     yellowCardBgColor: Color(0xFF222E35),
@@ -99,6 +103,7 @@ class CustomThemeExtension extends ThemeExtension<CustomThemeExtension> {
     Color? receiverChatCardBg,
     Color? yellowCardBgColor,
     Color? yellowCardTextColor,
+    Color? textColor,
   }) {
     return CustomThemeExtension(
       circleImageColor: circleImageColor ?? this.circleImageColor,
@@ -116,6 +121,8 @@ class CustomThemeExtension extends ThemeExtension<CustomThemeExtension> {
       senderChatCardBg: senderChatCardBg ?? this.senderChatCardBg,
       receiverChatCardBg: receiverChatCardBg ?? this.receiverChatCardBg,
       yellowCardBgColor: yellowCardBgColor ?? this.yellowCardBgColor,
+      yellowCardTextColor: yellowCardTextColor ?? this.yellowCardTextColor,
+      textColor: textColor ?? this.textColor,
     );
   }
 
@@ -149,6 +156,7 @@ class CustomThemeExtension extends ThemeExtension<CustomThemeExtension> {
           Color.lerp(yellowCardBgColor, other.yellowCardBgColor, t),
       yellowCardTextColor:
           Color.lerp(yellowCardTextColor, other.yellowCardTextColor, t),
+      textColor: Color.lerp(textColor, other.textColor, t),
     );
   }
 }
