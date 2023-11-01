@@ -143,15 +143,15 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
 
   void sendVideoFromGallery() async {
     try {
-      final video = await Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => const ImagePickerView(type: RequestType.video)));
+      final video = await ImagePicker().pickVideo(source: ImageSource.gallery);
 
-      if (video != null) {
-        sendFileMessage(video, MessageType.video);
-        setCardHeight();
-      }
+      if (video == null) return;
+
+      final videoTemporary = File(video.path);
+
+      sendFileMessage(videoTemporary, MessageType.video);
+
+      setCardHeight();
     } catch (e) {
       showAlertDialog(context: context, content: e.toString(), title: 'Error');
     }

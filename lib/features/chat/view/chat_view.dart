@@ -15,6 +15,8 @@ import 'package:whatapp_clone/routers/router.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 import 'package:whatapp_clone/features/chat/widgets/chat_field.widget.dart';
 
+import '../../../common/enum/message_typing.dart';
+
 final pageStorageBucket = PageStorageBucket();
 
 class ChatView extends ConsumerWidget {

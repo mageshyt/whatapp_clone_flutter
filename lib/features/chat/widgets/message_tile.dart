@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:whatapp_clone/features/chat/widgets/video_player_item.dart';
 import 'package:whatapp_clone/models/message_model.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 import 'package:custom_clippers/custom_clippers.dart';
@@ -70,18 +71,28 @@ class MessageTile extends ConsumerWidget {
                           ),
                         ),
                       )
-                    : Padding(
-                        padding: EdgeInsets.only(
-                          top: 8,
-                          bottom: 8,
-                          left: isSender ? 10 : 15,
-                          right: isSender ? 15 : 10,
-                        ),
-                        child: Text(
-                          "${message.textMessage}         ",
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
+                    : message.type == my_type.MessageType.video
+                        ? Padding(
+                            padding: const EdgeInsets.all(6),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: VideoPlayerItem(
+                                videoUrl: message.textMessage,
+                              ), // Replace with your VideoPlayer widget
+                            ),
+                          )
+                        : Padding(
+                            padding: EdgeInsets.only(
+                              top: 8,
+                              bottom: 8,
+                              left: isSender ? 10 : 15,
+                              right: isSender ? 15 : 10,
+                            ),
+                            child: Text(
+                              "${message.textMessage}         ",
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ),
               ),
             ),
             Positioned(
@@ -100,22 +111,21 @@ class MessageTile extends ConsumerWidget {
                       ),
                     )
                   : Container(
+                      // width: 90,
                       padding: const EdgeInsets.only(
                           left: 90, right: 10, bottom: 10, top: 14),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: const Alignment(0, -1),
-                          end: const Alignment(1, 1),
-                          colors: [
-                            context.theme.greyColor!.withOpacity(0),
-                            context.theme.greyColor!.withOpacity(.5),
-                          ],
-                        ),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(300),
-                          bottomRight: Radius.circular(100),
-                        ),
-                      ),
+                      // decoration: BoxDecoration(
+                      //   gradient: LinearGradient(
+                      //     begin: const Alignment(0, -1),
+                      //     end: const Alignment(1, 1),
+                      //     colors: [
+                      //       context.theme.greyColor!.withOpacity(0),
+                      //       context.theme.greyColor!.withOpacity(.5),
+                      //     ],
+                      //   ),
+                      //   borderRadius: BorderRadius.all(Radius.circular(50)),
+                      // ),
+
                       child: Text(
                         DateFormat.Hm().format(message.timeSent),
                         style: const TextStyle(
