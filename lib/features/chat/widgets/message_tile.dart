@@ -39,9 +39,9 @@ class MessageTile extends ConsumerWidget {
         clipper: haveNip
             ? UpperNipMessageClipperTwo(
                 isSender ? MessageType.send : MessageType.receive,
-                nipWidth: 8,
-                nipHeight: 10,
-                bubbleRadius: haveNip ? 12 : 0,
+                nipWidth: 0, // if you don't want nip set 0 else 8
+                nipHeight: 0, // if you don't want nip set 0 else 10
+                bubbleRadius: 10, // set bubble radius
               )
             : null,
         child: Stack(
@@ -51,7 +51,8 @@ class MessageTile extends ConsumerWidget {
                 color: isSender
                     ? context.theme.senderChatCardBg
                     : context.theme.receiverChatCardBg,
-                borderRadius: haveNip ? null : BorderRadius.circular(12),
+                // borderRadius: haveNip ? null : BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12),
                 boxShadow: const [
                   BoxShadow(color: Colors.black38),
                 ],
@@ -60,7 +61,7 @@ class MessageTile extends ConsumerWidget {
                 padding: const EdgeInsets.only(bottom: 5),
                 child: message.type == my_type.MessageType.image
                     ? Padding(
-                        padding: const EdgeInsets.all(4),
+                        padding: const EdgeInsets.all(6),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Image(

@@ -23,6 +23,7 @@ class ContractRepository {
       final currentUser = FirebaseAuth.instance.currentUser;
 
       final firebaseContactList = userCollection.docs.map((doc) {
+        debugPrint('doc.data() ${doc.data()}');
         if (currentUser!.uid != doc.data()['uid']) {
           return UserModel.fromMap(doc.data());
         } else {
@@ -46,6 +47,7 @@ class ContractRepository {
   Future<List<List<UserModel>>> getAllContacts2() async {
     List<UserModel> firebaseContacts = [];
     List<UserModel> phoneContacts = [];
+    final currentUser = FirebaseAuth.instance.currentUser;
     debugPrint("getting contacts");
     try {
       // Request permission to access phone contacts
@@ -74,6 +76,9 @@ class ContractRepository {
               contact.phones[0].number.replaceAll(' ', '');
           String phone_without_code =
               contact.phones[0].number.replaceAll('+91', '');
+
+
+
 
           // Check if the phone contact exists in Firebase
           for (var firebaseContact in firebaseContactList) {

@@ -37,11 +37,11 @@ class MyApp extends ConsumerWidget {
       title: 'Whatsapp me',
       home: ref.watch(userAuthProvider).when(
           data: (user) {
+            debugPrint(
+                'name : ${user!.name}, uid: ${user.uid} and number : ${user.phoneNumber}');
             // this will remove the splash screen
             FlutterNativeSplash.remove();
-            return user!.uid == null
-                ? const Welcome_screen()
-                : const HomeView();
+            return user.uid == null ? const Welcome_screen() : const HomeView();
             // return const Welcome_screen();
           },
           error: (err, trace) {

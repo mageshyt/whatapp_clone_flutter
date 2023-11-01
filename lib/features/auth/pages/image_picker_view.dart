@@ -30,6 +30,13 @@ class _ImagePickerViewState extends State<ImagePickerView> {
   // ------ list of images ------
 
   List<Widget> images = [];
+    void selectOriginalImage(AssetEntity asset) {
+    asset.originFile.then((file) {
+      if (file != null) {
+        Navigator.pop(context, file.readAsBytesSync());
+      }
+    });
+  }
 
   fetchAllImages() async {
     last_page = current_page;
@@ -64,7 +71,7 @@ class _ImagePickerViewState extends State<ImagePickerView> {
             if (snapshot.connectionState == ConnectionState.done &&
                 snapshot.hasData) {
               return InkWell(
-                onTap: () => Navigator.pop(context, snapshot.data),
+                onTap: () => selectOriginalImage(asset),
                 borderRadius: BorderRadius.circular(5),
                 child: Padding(
                   padding: const EdgeInsets.all(2.0),

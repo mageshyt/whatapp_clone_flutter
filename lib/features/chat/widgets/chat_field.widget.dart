@@ -26,6 +26,20 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
   double cardHeight = 0;
 
   late TextEditingController messageController;
+
+  void scrollDown() {
+    if (widget.scrollController.hasClients) {
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        widget.scrollController.animateTo(
+          widget.scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      });
+    } else {
+      debugPrint('>> scroll controller has no client');
+    }
+  }
   // ! ----------------- message controller -----------------
 
   void sendMessage() async {
@@ -39,17 +53,7 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
     }
     await Future.delayed(const Duration(milliseconds: 500));
 
-    if (widget.scrollController.hasClients) {
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        widget.scrollController.animateTo(
-          widget.scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      });
-    } else {
-      debugPrint('>> scroll controller has no client');
-    }
+    scrollDown();
   }
 
   void setCardHeight() {
@@ -113,20 +117,8 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
         );
 
     // scroll to bottom
-
-    await Future.delayed(const Duration(milliseconds: 100));
-
-    if (widget.scrollController.hasClients) {
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        widget.scrollController.animateTo(
-          widget.scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      });
-    } else {
-      debugPrint('>> scroll controller has no client');
-    }
+    await Future.delayed(const Duration(milliseconds: 2500));
+    scrollDown();
   }
 
   @override
