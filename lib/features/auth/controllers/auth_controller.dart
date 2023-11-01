@@ -33,8 +33,8 @@ class AuthController {
     return authRepository.getUserDetails(uid);
   }
 
-  void updateUserPresence() {
-    return authRepository.updateUserPresence();
+  void updateUserPresence(bool isOnline) {
+    return authRepository.updateUserPresence(isOnline);
   }
 
   Stream<UserModel?> getUserPresenceStatus(String uid) {

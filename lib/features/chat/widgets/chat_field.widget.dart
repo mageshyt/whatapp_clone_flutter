@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:photo_manager/photo_manager.dart';
 import 'package:whatapp_clone/common/common.dart';
 import 'package:whatapp_clone/common/enum/message_typing.dart';
+import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
 import 'package:whatapp_clone/constants/colors.dart';
 import 'package:whatapp_clone/features/auth/pages/image_picker_view.dart';
 import 'package:whatapp_clone/features/chat/controller/chat_controller.dart';
@@ -22,6 +27,7 @@ class ChatFieldWidget extends ConsumerStatefulWidget {
 }
 
 class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
+  File? imageCamera;
   bool isMessageIconEnabled = false;
   double cardHeight = 0;
 
@@ -102,6 +108,9 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
           builder: (_) => const ImagePickerView(),
         ));
 
+    // find the type of the file image or video or audio
+    MessageType messageType;
+
     if (image != null) {
       sendFileMessage(image, MessageType.image);
       setCardHeight();
@@ -119,6 +128,33 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
     // scroll to bottom
     await Future.delayed(const Duration(milliseconds: 2500));
     scrollDown();
+  }
+
+  void pickImageFromCamera() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      sendFileMessage(imageTemporary, MessageType.image);
+    } catch (e) {
+      showAlertDialog(context: context, content: e.toString(), title: 'Error');
+    }
+  }
+
+  void sendVideoFromGallery() async {
+    try {
+      final video = await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) => const ImagePickerView(type: RequestType.video)));
+
+      if (video != null) {
+        sendFileMessage(video, MessageType.video);
+        setCardHeight();
+      }
+    } catch (e) {
+      showAlertDialog(context: context, content: e.toString(), title: 'Error');
+    }
   }
 
   @override
@@ -164,9 +200,9 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
                       background: const Color(0xFF7F66FE),
                     ),
                     iconWithText(
-                      onPressed: () {},
-                      icon: Icons.camera_alt,
-                      text: 'Camera',
+                      onPressed: sendVideoFromGallery,
+                      icon: Icons.videocam,
+                      text: 'Video',
                       background: const Color(0xFFFE2E74),
                     ),
                     iconWithText(
@@ -276,7 +312,7 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
                           ),
                           CustomIconButton(
                             icon: Icons.camera_alt_outlined,
-                            onPressed: () {},
+                            onPressed: pickImageFromCamera,
                             iconsColor:
                                 Theme.of(context).listTileTheme.iconColor,
                           ),

@@ -15,28 +15,45 @@ class HomeView extends ConsumerStatefulWidget {
   _HomeViewState createState() => _HomeViewState();
 }
 
-class _HomeViewState extends ConsumerState<HomeView> {
-  late Timer time;
-
-  updateUserPresence() async {
+class _HomeViewState extends ConsumerState<HomeView>
+    with WidgetsBindingObserver {
+  updateUserPresence(bool isOnline) async {
     final authController = ref.read(authControllerProvider);
 
-    authController.updateUserPresence();
+    authController.updateUserPresence(isOnline);
   }
 
   @override
   void initState() {
-    updateUserPresence();
-    time = Timer.periodic(const Duration(minutes: 1), (timer) {
-      updateUserPresence();
-    });
+    WidgetsBinding.instance.addObserver(this);
+
     super.initState();
   }
 
   @override
   void dispose() {
-    time.cancel();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    switch (state) {
+      case AppLifecycleState.resumed:
+        debugPrint('resumed');
+        updateUserPresence(true);
+        break;
+      case AppLifecycleState.paused:
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.detached:
+        debugPrint('paused');
+        updateUserPresence(false);
+        break;
+      default:
+        break;
+    }
   }
 
   @override

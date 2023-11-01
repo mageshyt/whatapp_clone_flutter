@@ -7,7 +7,8 @@ import 'package:photo_manager/photo_manager.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 
 class ImagePickerView extends StatefulWidget {
-  const ImagePickerView({super.key});
+  final RequestType? type;
+  const ImagePickerView({super.key, this.type});
 
   @override
   State<ImagePickerView> createState() => _ImagePickerViewState();
@@ -30,7 +31,7 @@ class _ImagePickerViewState extends State<ImagePickerView> {
   // ------ list of images ------
 
   List<Widget> images = [];
-    void selectOriginalImage(AssetEntity asset) {
+  void selectOriginalImage(AssetEntity asset) {
     asset.originFile.then((file) {
       if (file != null) {
         Navigator.pop(context, file.readAsBytesSync());
@@ -49,8 +50,8 @@ class _ImagePickerViewState extends State<ImagePickerView> {
       return PhotoManager.openSetting();
     }
 
-    List<AssetPathEntity> albums =
-        await PhotoManager.getAssetPathList(onlyAll: true);
+    List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
+        onlyAll: true, type: widget.type ?? RequestType.image);
 
     // get all images
 
