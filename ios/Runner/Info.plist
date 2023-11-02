@@ -68,6 +68,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	
+	<key>NSAppleMusicUseageDescription</key>
+	<string>Reason we need access to the music library</string>
 </dict>
 </plist>
