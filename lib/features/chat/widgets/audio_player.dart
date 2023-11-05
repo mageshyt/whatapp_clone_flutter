@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whatapp_clone/common/common.dart';
-
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
-import 'package:audioplayers/audioplayers.dart';
-
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 class CustomAudioPlayer extends StatefulWidget {
   final String audioUrl;
@@ -15,16 +13,16 @@ class CustomAudioPlayer extends StatefulWidget {
 
 class _CustomAudioPlayerState extends State<CustomAudioPlayer> {
   bool isPlaying = false;
-  final AudioPlayer audioPlayer = AudioPlayer();
+  final assetsAudioPlayer = AssetsAudioPlayer();
 
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
 
   void togglePlayback() async {
     if (isPlaying) {
-      await audioPlayer.pause();
+      await assetsAudioPlayer.pause();
     } else {
-      await audioPlayer.play(UrlSource(widget.audioUrl));
+      await assetsAudioPlayer.open(Audio.network(widget.audioUrl));
     }
     setState(() {
       isPlaying = !isPlaying;
@@ -32,29 +30,33 @@ class _CustomAudioPlayerState extends State<CustomAudioPlayer> {
   }
 
   @override
+  void initState() {
+    assetsAudioPlayer.currentPosition.listen((event) {});
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: context.theme.receiverChatCardBg,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        children: [
-          Slider(
-            min: 0,
-            max: duration.inSeconds.toDouble(),
-            value: position.inSeconds.toDouble(),
-            onChanged: (value) {
-              // audioPlayer.seek(value);
-            },
-          ),
-          CustomIconButton(
-            onPressed: togglePlayback,
-            icon:
-                isPlaying ? Icons.pause_circle_filled : Icons.play_circle_fill,
-          ),
-        ],
-      ),
+    return Row(
+      children: [
+        Slider(
+          min: 0,
+          max: duration.inSeconds.toDouble(),
+          value: position.inSeconds.toDouble(),
+          onChanged: (value) {
+            // Seek to the specified position
+            // assetsAudioPlayer.seek(Duration(seconds: value.toInt()));
+
+            // setState(() {
+            //   position = Duration(seconds: value.toInt());
+            // });
+          },
+        ),
+        CustomIconButton(
+          onPressed: togglePlayback,
+          icon: isPlaying ? Icons.pause_circle_filled : Icons.play_circle_fill,
+        ),
+      ],
     );
   }
 }
