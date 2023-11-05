@@ -54,13 +54,13 @@ class ChatRepository {
           lastMessage = '📸 Photo message';
           break;
         case MessageType.audio:
-          lastMessage = '📸 Voice message';
+          lastMessage = '🎤 Voice message';
           break;
         case MessageType.video:
-          lastMessage = '📸 Video message';
+          lastMessage = '📹 Video message';
           break;
         case MessageType.gif:
-          lastMessage = '📸 GIF message';
+          lastMessage = 'GIF message';
           break;
         default:
           lastMessage = '📦 GIF message';

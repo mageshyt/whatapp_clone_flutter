@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:whatapp_clone/features/chat/widgets/audio_player.dart';
 import 'package:whatapp_clone/features/chat/widgets/video_player_item.dart';
 import 'package:whatapp_clone/models/message_model.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
@@ -81,18 +82,20 @@ class MessageTile extends ConsumerWidget {
                               ), // Replace with your VideoPlayer widget
                             ),
                           )
-                        : Padding(
-                            padding: EdgeInsets.only(
-                              top: 8,
-                              bottom: 8,
-                              left: isSender ? 10 : 15,
-                              right: isSender ? 15 : 10,
-                            ),
-                            child: Text(
-                              "${message.textMessage}         ",
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ),
+                        : message.type == my_type.MessageType.audio
+                            ? CustomAudioPlayer(audioUrl: message.textMessage)
+                            : Padding(
+                                padding: EdgeInsets.only(
+                                  top: 8,
+                                  bottom: 8,
+                                  left: isSender ? 10 : 15,
+                                  right: isSender ? 15 : 10,
+                                ),
+                                child: Text(
+                                  "${message.textMessage}         ",
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ),
               ),
             ),
             Positioned(
