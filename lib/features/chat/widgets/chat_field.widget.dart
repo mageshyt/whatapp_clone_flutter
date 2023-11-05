@@ -11,9 +11,11 @@ import 'package:whatapp_clone/common/helper/show_alert_dialog.dart';
 import 'package:whatapp_clone/constants/colors.dart';
 import 'package:whatapp_clone/features/auth/pages/image_picker_view.dart';
 import 'package:whatapp_clone/features/chat/controller/chat_controller.dart';
-
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:whatapp_clone/theme/custom_theme_extenstion.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ChatFieldWidget extends ConsumerStatefulWidget {
   const ChatFieldWidget(
@@ -30,6 +32,10 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
   File? imageCamera;
   bool isMessageIconEnabled = false;
   double cardHeight = 0;
+  FlutterSoundRecorder? _soundRecorder;
+  //! state for recorder
+  bool isRecorderInit = false;
+  bool isRecording = false;
 
   late TextEditingController messageController;
 
@@ -56,6 +62,25 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
           textMessage: messageController.text);
       messageController.clear();
       setState(() => isMessageIconEnabled = false);
+    } else {
+      // ! ----------------- send audio message -----------------
+      var tempDir = await getTemporaryDirectory();
+      var filePath = '${tempDir.path}/flutter_sound_example.aac';
+
+      if (isRecording && isRecorderInit) {
+        await _soundRecorder!.stopRecorder();
+        sendFileMessage(File(filePath), MessageType.audio);
+      } else {
+
+        await _soundRecorder!.startRecorder(
+          toFile: filePath,
+          codec: Codec.aacMP4,
+        );
+      }
+
+      setState(() {
+        isRecording = !isRecording;
+      });
     }
     await Future.delayed(const Duration(milliseconds: 500));
 
@@ -157,15 +182,31 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
     }
   }
 
+  void openAudio() async {
+    final status = await Permission.microphone.request();
+
+    if (status != PermissionStatus.granted) {
+      showAlertDialog(
+          context: context,
+          content: 'Please grant permission to record audio',
+          title: 'Permission required');
+      return;
+    }
+  }
+
   @override
   void initState() {
     messageController = TextEditingController();
+    _soundRecorder = FlutterSoundRecorder();
+    openAudio();
     super.initState();
   }
 
   @override
   void dispose() {
     messageController.dispose();
+    _soundRecorder!.closeRecorder();
+    isRecorderInit = false;
     super.dispose();
   }
 
@@ -325,7 +366,11 @@ class _ChatFieldWidgetState extends ConsumerState<ChatFieldWidget> {
               //----------------- send button-----------------
 
               CustomIconButton(
-                icon: isMessageIconEnabled ? Icons.send : Icons.mic_none,
+                icon: isMessageIconEnabled
+                    ? Icons.send
+                    : isRecording
+                        ? Icons.close
+                        : Icons.mic_none,
                 onPressed: sendMessage,
                 backgroundColor: ThemeColors.greenDark,
                 iconsColor: Colors.white,
